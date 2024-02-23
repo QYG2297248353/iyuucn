@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>参数配置</title>
+    <link rel="stylesheet" href="/app/admin/component/layui/css/layui.css"/>
+    <link rel="stylesheet" href="/app/admin/component/pear/css/pear.css"/>
+    <link rel="stylesheet" href="/app/admin/admin/css/reset.css"/>
+    <style>
+        #add-reply-rule {
+            width: 100%;
+            margin: 5px 0;
+        }
+
+        .rule {
+            margin: 5px 0;
+        }
+
+        .rule > div, .btn-plus {
+            padding-right: 10px;
+        }
+    </style>
+</head>
+<body class="pear-container">
+<div class="layui-card">
+    <div class="layui-card-body">
+        <form class="layui-form" action="" onsubmit="return false" lay-filter="chatReply">
+            <div class="layui-form-item">
+                <label class="layui-form-label">回复模式 <span class="layui-font-red">*</span></label>
+                <div class="layui-input-block">
+                    <select id="mode" name="mode" lay-verify="required" lay-filter="mode">
+                        <option value="simple">简单模式</option>
+                        <option value="hook">钩子模式</option>
+                        <option value="mix">混合模式</option>
+                    </select>
+                    <span class="layui-anim notselect layui-font-blue">
+                简单模式:匹配关键字回复简单文本内容, 钩子模式:配置钩子函数完全接管回复, 混合模式:钩子函数优先处理,未收到返回值再匹配关键字
+            </span>
+                </div>
+            </div>
+            <div class="mode-hook" style="display: none">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">钩子函数 <span class="layui-font-red">*</span></label>
+                    <div class="layui-input-block">
+                        <input type="text" id="hook" name="hook"
+                               placeholder="格式如:app/hook/Wechat@reply(钩子模式或混合模式为必填)" autocomplete="off"
+                               class="layui-input">
+                        <span class="layui-anim notselect layui-font-blue">
+                            由自定义的钩子函数完全接管回复内容,格式如:app/hook/Wechat@reply,使用方法见插件文档
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="mode-simple">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">关注回复 <span class="layui-font-red">*</span></label>
+                    <div class="layui-input-block">
+                        <input type="text" name="follow" required="" lay-verify="required"
+                               placeholder="用户关注公众号自动发送的欢迎消息（必填）" autocomplete="off"
+                               class="layui-input">
+                        <span class="layui-anim notselect layui-font-blue">
+                            必要参数，当用户关注公众号时,自动发送的欢迎消息
+                        </span>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">默认回复 <span class="layui-font-red">*</span></label>
+                    <div class="layui-input-block">
+                        <input type="text" name="default" required="" lay-verify="required"
+                               placeholder="当用户回复的内容不存在于回复规则中时,回复的默认消息（必填）"
+                               autocomplete="off" class="layui-input">
+                        <span class="layui-anim notselect layui-font-blue">
+                            必要参数，当用户回复的内容不存在于回复规则中时,回复的默认消息
+                        </span>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">回复规则 <span class="layui-font-red">&nbsp;</span></label>
+                    <div class="layui-input-block layui-row">
+                        <div class="layui-col-xs12">
+                            <div class="layui-col-xs5">匹配项</div>
+                            <div class="layui-col-xs5">回复内容</div>
+                        </div>
+                        <div id="reply-rules">
+                        </div>
+                        <div class="layui-col-xs10 btn-plus">
+                            <button type="button" plain class="pear-btn pear-btn-xs pear-btn-success"
+                                    id="add-reply-rule">
+                                <i class="layui-icon layui-icon-addition"></i>增加
+                            </button>
+                        </div>
+                        <span class="layui-col-xs12 layui-anim notselect layui-font-blue">
+                            可选参数,完全匹配则回复对应的消息
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="pear-btn pear-btn-primary" lay-submit="" lay-filter="formWechatReply">保存设置
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+<script src="/app/admin/component/layui/layui.js"></script>
+<script src="/app/admin/component/pear/pear.js"></script>
+<script>
+    layui.use(["form", "popup", "jquery"], function () {
+        let $ = layui.jquery;
+        //添加回复规则
+        $('#add-reply-rule').click(function () {
+            let html = '<div class="rule layui-col-xs12">' +
+                '<div class="layui-col-xs5"><input type="text" name="keyword[]" required="" lay-verify="required" placeholder="匹配项" autocomplete="off" class="layui-input"></div>' +
+                '<div class="layui-col-xs5"><input type="text" name="reply[]" required="" lay-verify="required" placeholder="回复内容" autocomplete="off" class="layui-input"></div>' +
+                '<div class="layui-col-xs1">' +
+                '<button type="button" plain class="pear-btn pear-btn-danger pear-btn-sm delete-rule"><i class="layui-icon layui-icon-subtraction"></i>移除</button>' +
+                '</div>' +
+                '</div>';
+            $('#reply-rules').append(html);
+        });
+
+        layui.form.on('select(mode)', function (data) {
+            modeChange(data.value);
+        });
+
+        //删除回复规则
+        $('#reply-rules').on('click', '.delete-rule', function () {
+            $(this).parent().parent().remove();
+        });
+
+        //加载回复规则
+        layui.$.ajax({
+            url: '/app/wechat/admin/reply/get',
+            type: "GET",
+            dateType: "json",
+            success: function (res) {
+                if (res.code) {
+                    return layui.popup.failure(res.msg);
+                }
+                layui.form.val("chatReply", res.data);
+                let html = '';
+                //加载回复规则
+                layui.each(res.data.rules, function (k, v) {
+                    html += '<div class="rule layui-col-xs12">' +
+                        '<div class="layui-col-xs5"><input type="text" name="keyword[]" required="" lay-verify="required" placeholder="匹配项" autocomplete="off" class="layui-input" value="' + k + '"></div>' +
+                        '<div class="layui-col-xs5"><input type="text" name="reply[]" required="" lay-verify="required" placeholder="回复内容" autocomplete="off" class="layui-input" value="' + v + '"></div>' +
+                        '<div class="layui-col-xs1">' +
+                        '<button type="button" plain class="pear-btn pear-btn-danger pear-btn-sm delete-rule"><i class="layui-icon layui-icon-subtraction"></i>移除</button>' +
+                        '</div>' +
+                        '</div>';
+                })
+                $('#reply-rules').append(html);
+                modeChange(res.data.mode);
+                //重新渲染表单
+                layui.form.render();
+            }
+        });
+
+        //提交
+        layui.form.on("submit(formWechatReply)", function (data) {
+            layui.$.ajax({
+                url: '/app/wechat/admin/reply/save',
+                type: "POST",
+                dateType: "json",
+                data: data.field,
+                success: function (res) {
+                    if (res.code) {
+                        return layui.popup.failure(res.msg);
+                    }
+                    return layui.popup.success("操作成功");
+                }
+            });
+            return false;
+        });
+        //根据回复模式设置显示隐藏
+        let modeChange = (mode) => {
+            let mode_simple = $('.mode-simple');
+            let mode_hook = $('.mode-hook');
+            let hook = $('#hook');
+            switch (mode) {
+                case 'simple':
+                    mode_hook.hide();
+                    mode_simple.show();
+                    hook.removeAttr('lay-verify');
+                    break;
+                case 'hook':
+                    mode_simple.hide();
+                    mode_hook.show();
+                    hook.attr('lay-verify', 'required');
+                    break;
+                case 'mix':
+                    mode_simple.show();
+                    mode_hook.show();
+                    hook.attr('lay-verify', 'required');
+                    break;
+            }
+        }
+    });
+
+</script>
+</html>

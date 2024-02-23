@@ -1,0 +1,462 @@
+<!DOCTYPE HTML>
+<html class="no-js" lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>爱语飞飞</title>
+    <link rel="shortcut icon" href="https://iyuu-1251099245.file.myqcloud.com/usr/themes/echo/img/favicon.png">
+    <!-- 依 赖 样 式 -->
+    <link rel="stylesheet" href="/app/admin/component/pear/css/pear.css"/>
+    <!-- 重置样式 -->
+    <link rel="stylesheet" href="/static/css/style.css"/>
+    <!-- 通过自有函数输出HTML头部信息 -->
+    <meta name="description" content="爱语飞飞微信模板消息推送接口"/>
+    <meta name="keywords" content="爱语飞飞,微信模板消息,模板消息,推送接口"/>
+</head>
+<body>
+<div class="layui-header header">
+    <div class="layui-main">
+        <a class="logo" href="https://iyuu.cn/">爱语飞飞</a>
+        <ul class="layui-nav">
+            <li class="layui-nav-item layui-hide-xs layui-this">
+                <a href="https://iyuu.cn/">首页</a>
+            </li>
+            <li class="layui-nav-item layui-hide-xs ">
+                <a href="https://iyuu.cn/archives.html" title="归档">归档</a>
+            </li>
+            <li class="layui-nav-item layui-hide-xs ">
+                <a href="https://iyuu.cn/links.html" title="友链">友链</a>
+            </li>
+            <li class="layui-nav-item layui-hide-xs ">
+                <a href="https://iyuu.cn/whisper.html" title="动态">动态</a>
+            </li>
+            <li class="layui-nav-item layui-hide-xs ">
+                <a href="https://iyuu.cn/help.html" title="帮助">帮助</a>
+            </li>
+            <!--登录框 开始-->
+            <li class="layui-nav-item">
+                <a href="https://iyuu.cn/admin/">
+                    <i class="layui-icon layui-icon-user" style="font-size: 20px;"></i>爱语飞飞</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="https://iyuu.cn/action/logout">退出</a></dd>
+                </dl>
+            </li>
+            <!--登录框 结束-->
+            <li class="layui-nav-item nav-btn layui-hide-sm">
+                <a href="javascript:;"><i class='layui-icon layui-icon-more'></i></a>
+                <dl class="layui-nav-child">
+                    <dd><a href="https://iyuu.cn/archives.html">归档</a></dd>
+                    <dd><a href="https://iyuu.cn/links.html">友链</a></dd>
+                    <dd><a href="https://iyuu.cn/whisper.html">动态</a></dd>
+                    <dd><a href="https://iyuu.cn/help.html">帮助</a></dd>
+                </dl>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="layui-container">
+    <div class="layui-row layui-col-space15 text-center">
+        <div class="layui-col-md12 layui-col-lg12" id="no_scan">
+            <p><img src="/static/logo/logo_257.png" alt="logo"/></p>
+            <h1>爱语飞飞微信模板消息推送接口</h1>
+            <p>接口地址https://iyuu.cn/<b style="color:#1E9FFF">[IYUU令牌]</b>.send</p>
+            <p>开通只需10秒钟：微信扫一扫，获取IYUU令牌，即可推送通知到微信。</p>
+            <button type="button" class="layui-btn layui-btn-lg scanWeixin" lay-on="scanWeixin"><i
+                    class="layui-icon layui-icon-login-wechat"></i>开始使用
+            </button>
+        </div>
+        <div class="layui-col-md12 layui-col-lg12" id="scan" style="display: none;">
+            <h1>申请爱语飞飞微信模板消息推送接口Token</h1>
+            <p id="qrcode"><img src="/static/logo/logo_257.png" alt="logo"/></p>
+            <p id="token"></p>
+            <p id="expire">请尽快使用手机微信扫码，二维码<b id="dd">120</b>过期。</p>
+            <button type="button" class="layui-btn" id="test_send" style="display: none;" lay-on="sendMessage"><i
+                    class="layui-icon layui-icon-login-wechat"></i>发送测试消息
+            </button>
+            <button type="button" class="layui-btn layui-btn-lg scanWeixin" style="display: none;"
+                    lay-on="scanWeixin"><i
+                    class="layui-icon layui-icon-login-wechat"></i>重新获取二维码
+            </button>
+        </div>
+
+        <button type="button" class="layui-btn layui-btn-lg layui-btn-normal" id="reward" lay-on="reward"><i
+                class="layui-icon layui-icon-rmb"></i>打赏作者
+        </button>
+    </div>
+
+    <div class="layui-row layui-col-space15 text-center">
+        <div class="layui-col-md12 layui-col-lg12">
+            <h1>功能特性</h1>
+        </div>
+        <div class="layui-col-md4">
+            <div class="layui-card">
+                <div class="layui-card-header"><i class="layui-icon layui-icon-chart"></i>实时在线</div>
+                <div class="layui-card-body">
+                    当前页面在线<span class="layui-badge layui-bg-cyan" id="online">NaN</span>人
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md4">
+            <div class="layui-card">
+                <div class="layui-card-header"><i class="layui-icon layui-icon-picture"></i> 二维码接口</div>
+                <div class="layui-card-body">
+                    今日调用<span class="layui-badge layui-bg-cyan"
+                                  id="qrcode_today_number"><?=$qrcode_day_number?></span>次
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md4">
+            <div class="layui-card">
+                <div class="layui-card-header"><i class="layui-icon layui-icon-chart-screen"></i> WebSocket连接</div>
+                <div class="layui-card-body">
+                    <span class="layui-badge" id="websocket_state">离线</span>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md4">
+            <div class="layui-card">
+                <div class="layui-card-header"><i class="layui-icon layui-icon-engine"></i> 灵活</div>
+                <div class="layui-card-body">
+                    同时支持http、https的GET/POST，<br>
+                    有微信，即可随时收到消息。
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md4">
+            <div class="layui-card">
+                <div class="layui-card-header"><i class="layui-icon layui-icon-fonts-code"></i> 易用</div>
+                <div class="layui-card-body">
+                    丰富的示例文档，轻松接入使用，<br>
+                    支持php、JavaScript、Java、C#、Golang等！
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md4">
+            <div class="layui-card">
+                <div class="layui-card-header"><i class="layui-icon layui-icon-diamond"></i> 稳定</div>
+                <div class="layui-card-body">
+                    腾讯云服务器双节点（重庆/广东）<br>
+                    与微信API通信低时延（30ms/6ms）。
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md4">
+            <div class="layui-card">
+                <div class="layui-card-header"><i class="layui-icon layui-icon-praise"></i> 丰富</div>
+                <div class="layui-card-body">
+                    原生支持Markdown语法，<br>
+                    支持图片、链接、代码高亮等，让通知不再单调。
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md4">
+            <div class="layui-card">
+                <div class="layui-card-header"><i class="layui-icon layui-icon-password"></i> 安全</div>
+                <div class="layui-card-body">
+                    消息仅存3天，采用sha1算法，<br>
+                    uid+openid+microtime(true)+32位随机
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md4">
+            <div class="layui-card">
+                <div class="layui-card-header"><i class="layui-icon layui-icon-auz"></i> 免费</div>
+                <div class="layui-card-body">
+                    采用PHP编写，免费使用！<br>
+                    后端API、Websocket、Token服务开源。
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-row layui-col-space15">
+        <h1 class="text-center">常见问题</h1>
+        <div class="layui-col-md12">
+            <div class="layui-collapse" lay-accordion="">
+                <div class="layui-colla-item">
+                    <h2 class="layui-colla-title">如何使用接口发送消息？</h2>
+                    <div class="layui-colla-content layui-show">
+                        <p>向<b style="color:#FF5722">https://iyuu.cn/<span class="urlToken">[IYUU令牌]</span>.send</b>发送两个参数：<b
+                                style="color:#FF5722">text</b>和<b style="color:#FF5722">desp</b>即可。<br>
+                            text参数为必须，desp参数可选；接口支持GET和POST请求。<a href="https://iyuu.cn/help.html"
+                                                                                 target="_blank" style="color:#009688">查看帮助文档</a>
+                        </p>
+                    </div>
+                </div>
+                <div class="layui-colla-item">
+                    <h2 class="layui-colla-title">爱语飞飞微信通知接口，消息发送规则？</h2>
+                    <div class="layui-colla-content">
+                        <p>目前，暂时未做限流处理。
+                            <br></p>
+                    </div>
+                </div>
+                <div class="layui-colla-item">
+                    <h2 class="layui-colla-title">为什么收不到消息？</h2>
+                    <div class="layui-colla-content">
+                        <p>1.请点击上方‘开始使用’，微信扫码或识别，进行测试。即可判断是接口问题，还是您系统本身问题，缩小排查范围。<br>
+                            2.您是否在微信内禁止了公众号对您发送通知？爱语飞飞公众号(iyuucn)菜单‘功能’ - ‘通知设置’查看。
+                        </p>
+                    </div>
+                </div>
+                <div class="layui-colla-item">
+                    <h2 class="layui-colla-title">微信扫码都获取了我哪些信息？</h2>
+                    <div class="layui-colla-content">
+                        <p>完全遵循微信开发文档，仅通过openid获取微信用户的基本信息，如需深入了解，请查阅微信官方开发文档页面：<a
+                                href="https://developers.weixin.qq.com/doc/offiaccount/User_Management/Get_users_basic_information_UnionID.html#UinonId"
+                                target="_blank">微信公众号开发文档 - 获取用户基本信息</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-row layui-col-space15">
+        <h1 class="text-center">最新动态</h1>
+        <div class="layui-col-md12">
+            <ul class="layui-timeline">
+                <li class="layui-timeline-item">
+                    <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+                    <div class="layui-timeline-content layui-text">
+                        <h3 class="layui-timeline-title">2023年05月05日 23:20:53</h3>
+                        <p>已适配5月4日微信发布的模板消息变更，将长度小于40的text字段作为通知内容</p></div>
+                </li>
+                <li class="layui-timeline-item">
+                    <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+                    <div class="layui-timeline-content layui-text">
+                        <h3 class="layui-timeline-title">2023年03月28日 09:17:35</h3>
+                        <p>增加首页显示今日二维码调用次数</p></div>
+                </li>
+                <li class="layui-timeline-item">
+                    <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+                    <div class="layui-timeline-content layui-text">
+                        <h3 class="layui-timeline-title">2021年07月27日 15:33:57</h3>
+                        <p>增加首页实时显示在线人数。</p></div>
+                </li>
+                <li class="layui-timeline-item">
+                    <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+                    <div class="layui-timeline-content layui-text">
+                        <h3 class="layui-timeline-title">2020年07月26日 21:53:37</h3>
+                        <p>微信模板消息通知，支持自定义设置！体验路径：爱语飞飞公众号，打开右下角菜单'功能' ==>>
+                            '通知设置'。</p></div>
+                </li>
+                <li class="layui-timeline-item">
+                    <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+                    <div class="layui-timeline-content layui-text">
+                        <h3 class="layui-timeline-title">2020年02月14日 14:48:51</h3>
+                        <p>经检查是微信消息存放的表出现了错误，已修复。</p></div>
+                </li>
+                <li class="layui-timeline-item">
+                    <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+                    <div class="layui-timeline-content layui-text">
+                        <h3 class="layui-timeline-title">2019年09月04日 21:12:21</h3>
+                        <p>增加QQ互联登录，方便用户登录互动。</p></div>
+                </li>
+                <li class="layui-timeline-item">
+                    <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+                    <div class="layui-timeline-content layui-text">
+                        <h3 class="layui-timeline-title">2019年09月02日 13:13:23</h3>
+                        <p>完善帮助文档，提供丰富的php示例代码。帮助:https://iyuu.cn/help.html</p></div>
+                </li>
+                <li class="layui-timeline-item">
+                    <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+                    <div class="layui-timeline-content layui-text">
+                        <h3 class="layui-timeline-title">2019年09月01日 12:37:25</h3>
+                        <p>爱语飞飞微信模板消息推送接口开发完成。</p></div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    <div class="layui-col-md12 t-copy">
+        <span class="layui-breadcrumb">
+            <span>&copy; <?php echo date('Y');?> <a href="https://iyuu.cn/">爱语飞飞</a></span>
+			<span class="layui-hide-xs">
+                <a target="_blank" href="https://beian.miit.gov.cn">琼ICP备14001618号-2</a>
+            </span>
+        </span>
+    </div>
+</div>
+<!-- 依 赖 脚 本 -->
+<script src="/app/admin/component/layui/layui.js?v=2.8.12"></script>
+<script src="/app/admin/component/pear/pear.js"></script>
+<script src="/push.js"></script>
+<script>
+    const hostname = location.hostname;
+    const host = location.host;
+    console.log(location);
+    layui.use(['jquery', 'layer', 'element', 'util'], function () {
+        let $ = layui.$,
+            layer = layui.layer,
+            element = layui.element,
+            util = layui.util;
+
+        // 显示长链接状态
+        let state_elem = document.getElementById('websocket_state');
+        // 今日获取二维码调用次数
+        let elem_qrcode_today_number = document.getElementById('qrcode_today_number');
+        // 当前token
+        let token = '';
+
+        //右下角工具箱（返回顶部）
+        util.fixbar();
+
+        // 处理批量事件
+        util.on('lay-on', {
+            scanWeixin: function () {
+                if (state_elem.classList.contains('layui-bg-green')) {
+                    // 请求二维码接口
+                    $.getJSON("/qrcode/create", function (d) {
+                        console.log("获得二维码，返回：", d);
+                        if (0 !== d.code) {
+                            layer.msg(d.msg || '获取二维码失败');
+                            return;
+                        }
+
+                        const data = d.data;
+                        // 二维码接口今日调用次数
+                        elem_qrcode_today_number.innerHTML = data.qrcode_today_number;
+
+                        $("#no_scan").hide();
+                        $("#scan").show();
+                        // 显示二维码
+                        show_qrcode(data.ticket, data.expire_seconds);
+                    });
+                } else {
+                    layer.msg('WebSocket断开，请刷新页面重试');
+                }
+            },
+            // 发送测试消息
+            sendMessage: function () {
+                console.log('发送测试消息', token)
+                let url = "/" + token + ".send?text=您的TOKEN申请成功&desp=" + token;
+                $.getJSON(url, function (ret) {
+                    layui.layer.msg(JSON.stringify(ret));
+                });
+            },
+            // 赞赏
+            reward: function () {
+                layui.layer.open({
+                    type: 1,
+                    title: false,
+                    closeBtn: 0,
+                    area: ['auto'],
+                    skin: 'layui-layer-nobg',
+                    shadeClose: true,
+                    content: '<img src="/static/pay/reward.png" width="500" height="500" alt="赞赏" style="" />'
+                });
+            }
+        });
+
+        /**
+         * 显示二维码
+         */
+        function show_qrcode(ticket = '', expire_seconds = 120) {
+            $("#qrcode").html('<img src="https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=' + ticket + '" width="257" height="257" alt="二维码" />');
+            $("#token").html("");
+            $("#expire").show();
+            $("#test_send").hide();
+            $(".scanWeixin").hide();
+            util.countdown({
+                date: new Date(Date.now() + expire_seconds * 1000),
+                now: new Date(),
+                ready: function () {
+                    clearTimeout(util.countdown.timer);
+                },
+                clock: function (obj, countdown) {
+                    const str = [obj.m, '分', obj.s, '秒'].join('');
+                    lay('#dd').html(str);
+                    util.countdown.timer = countdown.timer;
+                },
+                done: function (obj, countdown) {
+                    show_logo();
+                    $("#token").html("二维码已过期，请重新获取二维码。");
+                    $("#expire").hide();
+                    $("#test_send").hide();
+                    $(".scanWeixin").show();
+                }
+            });
+        }
+
+        /**
+         * 显示token
+         * @param {string} value
+         */
+        function show_token(value) {
+            token = value
+            clearTimeout(util.countdown.timer);
+            show_logo();
+            $("#token").html('您的令牌Token：' + value + '<br />');
+            $(".urlToken").html(token);
+            $("#expire").hide();
+            $("#test_send").show();
+            $(".scanWeixin").hide();
+        }
+
+        /**
+         * 显示logo
+         */
+        function show_logo() {
+            $("#qrcode").html('<img src="/static/logo/logo_257.png" alt="爱语飞飞Logo"/>');
+        }
+
+        /**
+         * 长链接通信
+         */
+        const pusher = {
+            url: (location.protocol === 'https:' ? 'wss://' : 'ws://') + (-1 === host.indexOf(':') ? hostname : hostname + ':<?=$websocket_port?>'), // websocket地址
+            app_key: '<?=$app_key?>',
+            auth: '<?=$auth?>'
+        };
+        console.log(JSON.stringify(pusher));
+
+        let connection = new Push(pusher);
+        setInterval(() => {
+            state_elem.innerText = connection.connection.state;
+            if (connection.connection.state === 'connected') {
+                state_elem.classList.add('layui-bg-green');
+            } else {
+                state_elem.classList.remove('layui-bg-green');
+                state_elem.innerText = '离线';
+            }
+        }, 1000);
+
+        // 关注公共频道
+        let channel = connection.subscribe('iyuu-public');
+        // 公共频道：普通消息
+        channel.on('message', function (data) {
+            console.info(data)
+        });
+
+        // 关注私有频道
+        $.ajax({
+            url: "/plugin/ledc/push/uniqid_channel",
+            dataType: 'json',
+            success: function (res) {
+                console.log('唯一值的私有频道', res);
+                if (res.hasOwnProperty('channel_name')) {
+                    let uniqid_channel = connection.subscribe(res.channel_name);
+                    // 扫码事件
+                    uniqid_channel.on('scan', function (data) {
+                        console.info(data);
+                        switch (data.type) {
+                            case 'iyuu':
+                                show_token(data.token);
+                                break;
+                            case 'login':
+                                break;
+                            default:
+                                break;
+                        }
+                    });
+                }
+            }
+        });
+    });
+</script>
+</body>
+</html>

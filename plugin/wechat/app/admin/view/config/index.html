@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>参数配置</title>
+    <link rel="stylesheet" href="/app/admin/component/layui/css/layui.css"/>
+    <link rel="stylesheet" href="/app/admin/component/pear/css/pear.css"/>
+    <link rel="stylesheet" href="/app/admin/admin/css/reset.css"/>
+</head>
+<body class="pear-container">
+<div class="layui-card">
+    <div class="layui-card-body">
+        <form class="layui-form" action="" onsubmit="return false" lay-filter="chatConfig">
+            <div class="layui-form-item">
+                <label class="layui-form-label">Token <span class="layui-font-red">*</span></label>
+                <div class="layui-input-block">
+                    <input type="text" name="token" required lay-verify="required"
+                           placeholder="请输入消息推送对接认证Token（必填）" autocomplete="off" class="layui-input">
+                    <span class="layui-anim notselect layui-font-blue">
+                必要参数，用于消息推送对接认证，必须为英文或数字，长度为3-32个字符
+            </span>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">AppId <span class="layui-font-red">*</span></label>
+                <div class="layui-input-block">
+                    <input type="text" name="app_id" required lay-verify="required"
+                           placeholder="公众号AppID（必填）" autocomplete="off" class="layui-input">
+                    <span class="layui-anim notselect layui-font-blue">可以在公众号平台 [ 开发 > 基本配置 ] 页面获取。</span>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">AppSecret <span class="layui-font-red">*</span></label>
+                <div class="layui-input-block">
+                    <input type="text" name="secret" required lay-verify="required"
+                           placeholder="公众号接口密钥AppSecret（必填）" autocomplete="off" class="layui-input">
+                    <span class="layui-anim notselect layui-font-blue">
+                可以在公众号平台 [ 开发 > 基本配置 ] 页面授权后获取。
+            </span>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">稳定版凭据</label>
+                <div class="layui-input-block">
+                    <input type="checkbox" name="use_stable_access_token" lay-skin="switch">
+                    <span class="layui-anim notselect layui-font-blue">获取稳定版接口调用凭据</span>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">AesKey <span class="layui-font-red">&nbsp;</span></label>
+                <div class="layui-input-block">
+                    <input type="text" name="aes_key" placeholder="请输入43位公众号消息推送加密密钥（可选）"
+                           autocomplete="off" class="layui-input">
+                    <span class="layui-anim notselect layui-font-blue">
+                明文模式下无须填写该项, 兼容模式与安全模式下请一定要填写。
+            </span>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">授权方式 <span class="layui-font-red">&nbsp;</span></label>
+                <div class="layui-input-block">
+                    <select name="oauth[scopes][]">
+                        <option></option>
+                        <option value="snsapi_userinfo">snsapi_userinfo</option>
+                        <option value="snsapi_base">snsapi_base</option>
+                    </select>
+                    <span class="layui-anim notselect layui-font-blue">
+                snsapi_userinfo：需要用户授权，可获取用户信息, snsapi_base：静默授权，无需用户授权，只能获取用户openid</span>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">回调页地址 <span class="layui-font-red">&nbsp;</span></label>
+                <div class="layui-input-block">
+                    <input type="url" name="oauth[redirect_url]"
+                           placeholder="开发需要获取用户授权的功能时需要填写（可选）"
+                           autocomplete="off" class="layui-input">
+                    <span class="layui-anim notselect layui-font-blue">
+                OAuth授权完成后的回调页地址，建议填写当前域名下的地址，如：https://domain.com/oauth/callback
+            </span>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">服务器地址 <span class="layui-font-red">&nbsp;</span></label>
+                <div class="layui-input-block">
+                    <input type="text" readonly id="url" value="" autocomplete="off" class="layui-input">
+                    <span class="layui-anim notselect layui-font-blue">
+                公众号服务平台消息推送接口，需在公众号接口开发处配置，请注意:微信服务器无法向localhost推送消息，应上线后进行配置
+            </span>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">超时时间<span class="layui-font-red">&nbsp;</span></label>
+                <div class="layui-input-block">
+                    <input type="number" name="http[timeout]"
+                           placeholder="超时时间，单位秒"
+                           autocomplete="off" class="layui-input" value="5">
+                    <span class="layui-anim notselect layui-font-blue">请求微信接口时的超时时间</span>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">微信接口地址<span class="layui-font-red">&nbsp;</span></label>
+                <div class="layui-input-block">
+                    <input type="url" name="http[base_uri]"
+                           placeholder="微信接口地址uri"
+                           autocomplete="off" class="layui-input" value="https://api.weixin.qq.com/">
+                    <span class="layui-anim notselect layui-font-blue">如果你在国外想要覆盖默认的 url 的时候才使用</span>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="pear-btn pear-btn-primary" lay-submit="" lay-filter="formWechatConfig">保存设置
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="/app/admin/component/layui/layui.js"></script>
+<script src="/app/admin/component/pear/pear.js"></script>
+<script>
+
+    layui.$("#url").val('https://' + window.location.host + '/app/wechat/api/push');
+
+    layui.use(["form", "popup"], function () {
+        layui.$.ajax({
+            url: '/app/wechat/admin/config/get',
+            type: "GET",
+            dateType: "json",
+            success: function (res) {
+                if (res.code) {
+                    return layui.popup.failure(res.msg);
+                }
+                layui.form.val("chatConfig", res.data);
+                layui.$('select[name="oauth[scopes][]"]').val(res.data.oauth.scopes);
+                layui.$('input[name="oauth[redirect_url]"]').val(res.data.oauth.redirect_url);
+                layui.$('input[name="http[timeout]"]').val(res.data.http.timeout);
+                //重新渲染表单
+                layui.form.render();
+            }
+        });
+
+        layui.form.on("submit(formWechatConfig)", function (data) {
+            layui.$.ajax({
+                url: '/app/wechat/admin/config/save',
+                type: "POST",
+                dateType: "json",
+                data: data.field,
+                success: function (res) {
+                    if (res.code) {
+                        return layui.popup.failure(res.msg);
+                    }
+                    return layui.popup.success("操作成功", function () {
+                        parent.refreshTable();
+                        parent.layer.close(parent.layer.getFrameIndex(window.name));
+                    });
+                }
+            });
+            return false;
+        });
+    });
+
+</script>
+</body>
+</html>
