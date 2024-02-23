@@ -12,10 +12,10 @@ The webman is open-sourced software licensed under the MIT.
 </div>
 
 ## 使用：
-命令行运行：`sh restart.sh`
-安装界面：http://你的域名或IP/app/admin
-安装插件
+ - 命令行运行：`sh restart.sh`
+ - 安装界面：http://你的域名或IP/app/admin
+ - 安装插件
 ```shell
 php webman app-plugin:install wechat
 ```
-导入数据库：/plugin/wechat/wechat.sql
+ - 导入数据库：/plugin/wechat/wechat.sql
