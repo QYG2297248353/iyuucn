@@ -295,6 +295,8 @@
             element = layui.element,
             util = layui.util;
 
+        // 在线人数
+        let online = document.getElementById('online');
         // 显示长链接状态
         let state_elem = document.getElementById('websocket_state');
         // 今日获取二维码调用次数
@@ -407,17 +409,16 @@
         /**
          * 长链接通信
          */
-        const pusher = {
+        const config = {
             url: (location.protocol === 'https:' ? 'wss://' : 'ws://') + (-1 === host.indexOf(':') ? hostname : hostname + ':<?=$websocket_port?>'), // websocket地址
             app_key: '<?=$app_key?>',
             auth: '<?=$auth?>'
         };
-        console.log(JSON.stringify(pusher));
-
-        let connection = new Push(pusher);
+        console.log(JSON.stringify(config));
+        let pusher = new Push(config);
         setInterval(() => {
-            state_elem.innerText = connection.connection.state;
-            if (connection.connection.state === 'connected') {
+            state_elem.innerText = pusher.connection.state;
+            if (pusher.connection.state === 'connected') {
                 state_elem.classList.add('layui-bg-green');
             } else {
                 state_elem.classList.remove('layui-bg-green');
@@ -425,12 +426,28 @@
             }
         }, 1000);
 
-        // 关注公共频道
-        let channel = connection.subscribe('iyuu-public');
-        // 公共频道：普通消息
-        channel.on('message', function (data) {
-            console.info(data)
-        });
+        /**
+         * 更新在线人数
+         * @param {string} status
+         */
+        function update_online_status(status) {
+            innerText.innerText = status;
+            try {
+                localStorage.setItem('online_status', status);
+            } catch (e) {
+            }
+        }
+
+        let online_channel = pusher.subscribe('online_status');
+        online_channel.on('update_online_status', update_online_status);
+
+        try {
+            let s = localStorage.getItem('online_status');
+            if (s !== null && s !== 'null') {
+                innerText.innerText = s;
+            }
+        } catch (e) {
+        }
 
         // 关注私有频道
         $.ajax({
@@ -439,7 +456,7 @@
             success: function (res) {
                 console.log('唯一值的私有频道', res);
                 if (res.hasOwnProperty('channel_name')) {
-                    let uniqid_channel = connection.subscribe(res.channel_name);
+                    let uniqid_channel = pusher.subscribe(res.channel_name);
                     // 扫码事件
                     uniqid_channel.on('scan', function (data) {
                         console.info(data);

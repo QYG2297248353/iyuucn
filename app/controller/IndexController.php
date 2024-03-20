@@ -21,7 +21,7 @@ class IndexController
             'app_key' => config('plugin.ledc.push.app.app_key'),
             'auth' => config('plugin.ledc.push.app.auth'),
             'websocket_port' => parse_url(config('plugin.ledc.push.app.websocket'), PHP_URL_PORT),
-            'qrcode_day_number' => qrcode_day_number()
+            'qrcode_day_number' => qrcode_day_number(),
         ]);
     }
 

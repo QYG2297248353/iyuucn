@@ -15,4 +15,6 @@ return [
         [WebmanAdmin::class, 'process'],
         [UniqidPipeline::class, 'process'],
     ],
+    // redis集合key：存放在线频道
+    'all_channels_key' => 'PusherIyuuCn:ChannelsOnline',
 ];
