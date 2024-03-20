@@ -2,8 +2,10 @@
 
 namespace plugin\wechat\process;
 
+use Ledc\Push\Pusher;
 use plugin\wechat\app\model\WechatTemplateMessage;
 use plugin\wechat\app\service\WechatService;
+use support\Redis;
 use Workerman\Timer;
 use Workerman\Worker;
 
@@ -24,6 +26,11 @@ class Crontab
         static::$worker = $worker;
         $this->startAccessToken();
         $this->startClearTemplateMessage();
+
+        Timer::add(3, function () {
+            Pusher::trigger('online_status', 'update_online_status', Redis::sCard(config('plugin.ledc.push.app.all_channels_key')));
+
+        });
     }
 
     /**
