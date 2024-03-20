@@ -42,7 +42,7 @@ Route::post(config('plugin.ledc.push.app.auth'), function (Request $request) {
  * 频道下线：是指某个频道的所有连接都断开触发的事件
  */
 Route::post(parse_url(config('plugin.ledc.push.app.channel_hook'), PHP_URL_PATH), function (Request $request) {
-    Log::debug(date('Y-m-d H:i:s') . '回调');
+    //Log::debug(date('Y-m-d H:i:s') . '回调');
     // 没有x-pusher-signature头视为伪造请求
     if (!$webhook_signature = $request->header('x-pusher-signature')) {
         return response('401 Not authenticated', 401);
@@ -62,13 +62,13 @@ Route::post(parse_url(config('plugin.ledc.push.app.channel_hook'), PHP_URL_PATH)
     // 这里存储这上线 下线的channel数据
     $payload = json_decode($body, true);
 
-    $channels_online = $channels_offline = [];
+    //$channels_online = $channels_offline = [];
     foreach ($payload['events'] as $event) {
         if ($event['name'] === 'channel_added') {
-            $channels_online[] = $event['channel'];
+            //$channels_online[] = $event['channel'];
             \support\Redis::sAdd($all_channels_key, $event['channel']);
         } elseif ($event['name'] === 'channel_removed') {
-            $channels_offline[] = $event['channel'];
+            //$channels_offline[] = $event['channel'];
             \support\Redis::sRem($all_channels_key, $event['channel']);
         }
     }
@@ -76,9 +76,9 @@ Route::post(parse_url(config('plugin.ledc.push.app.channel_hook'), PHP_URL_PATH)
     Pusher::trigger('online_status', 'update_online_status', \support\Redis::sCard($all_channels_key));
     // 业务根据需要处理上下线的channel，例如将在线状态写入数据库，通知其它channel等
     // 上线的所有channel
-    echo 'online channels: ' . implode(',', $channels_online) . "\n";
+    //echo 'online channels: ' . implode(',', $channels_online) . "\n";
     // 下线的所有channel
-    echo 'offline channels: ' . implode(',', $channels_offline) . "\n";
+    //echo 'offline channels: ' . implode(',', $channels_offline) . "\n";
 
     return 'OK';
 });

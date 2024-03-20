@@ -4,7 +4,6 @@ namespace app\pusher;
 
 use Error;
 use Exception;
-use plugin\movie\app\services\PusherOnline;
 use support\Redis;
 use Throwable;
 use Workerman\Connection\AsyncTcpConnection;
