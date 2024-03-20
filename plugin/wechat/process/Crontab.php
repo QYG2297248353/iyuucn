@@ -26,11 +26,6 @@ class Crontab
         static::$worker = $worker;
         $this->startAccessToken();
         $this->startClearTemplateMessage();
-
-        Timer::add(3, function () {
-            Pusher::trigger('online_status', 'update_online_status', Redis::sCard(config('plugin.ledc.push.app.all_channels_key')));
-
-        });
     }
 
     /**
