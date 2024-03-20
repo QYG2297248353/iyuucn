@@ -426,20 +426,14 @@
             }
         }, 1000);
 
-        /**
-         * 更新在线人数
-         * @param {string} status
-         */
-        function update_online_status(status) {
+        let online_channel = pusher.subscribe('online_status');
+        online_channel.on('update_online_status', function (status) {
             online.innerText = status;
             try {
                 localStorage.setItem('online_status', status);
             } catch (e) {
             }
-        }
-
-        let online_channel = pusher.subscribe('online_status');
-        online_channel.on('update_online_status', update_online_status);
+        });
 
         try {
             let s = localStorage.getItem('online_status');
