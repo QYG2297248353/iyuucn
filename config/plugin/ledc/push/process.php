@@ -13,6 +13,7 @@ return [
             'app_info' => [
                 config('plugin.ledc.push.app.app_key') => [
                     'channel_hook' => config('plugin.ledc.push.app.channel_hook'),
+                    'user_hook' => config('plugin.ledc.push.app.channel_hook'),
                     'app_secret' => config('plugin.ledc.push.app.app_secret'),
                 ],
             ]

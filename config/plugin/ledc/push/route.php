@@ -2,6 +2,7 @@
 
 use Ledc\Push\Pusher;
 use Ledc\Push\UniqidChannel;
+use support\Log;
 use support\Request;
 use Webman\Route;
 
@@ -41,6 +42,7 @@ Route::post(config('plugin.ledc.push.app.auth'), function (Request $request) {
  * 频道下线：是指某个频道的所有连接都断开触发的事件
  */
 Route::post(parse_url(config('plugin.ledc.push.app.channel_hook'), PHP_URL_PATH), function (Request $request) {
+    Log::debug(date('Y-m-d H:i:s') . '回调');
     // 没有x-pusher-signature头视为伪造请求
     if (!$webhook_signature = $request->header('x-pusher-signature')) {
         return response('401 Not authenticated', 401);
