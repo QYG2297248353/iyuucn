@@ -1,19 +1,13 @@
 <?php
-/**
- * This file is part of webman.
- *
- * Licensed under The MIT License
- * For full copyright and license information, please see the MIT-LICENSE.txt
- * Redistributions of files must retain the above copyright notice.
- *
- * @author    walkor<walkor@workerman.net>
- * @copyright walkor<walkor@workerman.net>
- * @link      http://www.workerman.net/
- * @license   http://www.opensource.org/licenses/mit-license.php MIT License
- */
+
+//读取环境变量内服务监听端口
+$server_listen_port = getenv('SERVER_LISTEN_PORT');
+if (false === $server_listen_port || !ctype_digit($server_listen_port)) {
+    $server_listen_port = '8787';
+}
 
 return [
-    'listen' => 'http://0.0.0.0:8788',
+    'listen' => 'http://0.0.0.0:' . $server_listen_port,
     'transport' => 'tcp',
     'context' => [],
     'name' => 'webman',
