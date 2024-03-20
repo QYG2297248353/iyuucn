@@ -431,7 +431,7 @@
          * @param {string} status
          */
         function update_online_status(status) {
-            innerText.innerText = status;
+            online.innerText = status;
             try {
                 localStorage.setItem('online_status', status);
             } catch (e) {
@@ -444,7 +444,7 @@
         try {
             let s = localStorage.getItem('online_status');
             if (s !== null && s !== 'null') {
-                innerText.innerText = s;
+                online.innerText = s;
             }
         } catch (e) {
         }
