@@ -5,7 +5,6 @@ namespace app;
 use app\model\WaUserObserver;
 use plugin\admin\app\model\User as WaUserByPluginAdmin;
 use plugin\user\app\model\User as WaUserByPluginUser;
-use support\Redis;
 use Workerman\Worker;
 
 /**
@@ -20,7 +19,6 @@ class Bootstrap implements \Webman\Bootstrap
      */
     public static function start(?Worker $worker): void
     {
-        Redis::del(config('plugin.ledc.push.app.all_channels_key'));
         //【新增】依次触发的顺序是：
         //saving -> creating -> created -> saved
 
