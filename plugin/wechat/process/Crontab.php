@@ -2,10 +2,8 @@
 
 namespace plugin\wechat\process;
 
-use Ledc\Push\Pusher;
 use plugin\wechat\app\model\WechatTemplateMessage;
 use plugin\wechat\app\service\WechatService;
-use support\Redis;
 use Workerman\Timer;
 use Workerman\Worker;
 
