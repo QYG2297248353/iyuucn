@@ -34,6 +34,11 @@ class WechatTemplateMessage extends Base
     protected $primaryKey = 'mid';
 
     /**
+     * 今日模板消息发送数量
+     */
+    public const TODAY_SEND_MESSAGE_NUMBER = 'WechatTemplateMessage:todayNumber:{{date}}';
+
+    /**
      * 生成提取消息的哈希
      * @param int $uuid
      * @param string $openid
