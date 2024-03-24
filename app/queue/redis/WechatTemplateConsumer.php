@@ -128,6 +128,10 @@ class WechatTemplateConsumer extends ConsumerAbstract
                         //用户未关注
                         return;
                     }
+                    if (43101 == $response->errcode) {
+                        //用户拒绝接受消息
+                        return;
+                    }
                     Log::warning('发送模版消息失败：' . json_encode($response, JSON_UNESCAPED_UNICODE));
                 }
                 $this->retry($payload);
