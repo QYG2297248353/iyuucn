@@ -129,12 +129,12 @@ class WechatTemplateConsumer extends ConsumerAbstract
                 $this->services->push($db);
             } else {
                 if (isset($response->errcode)) {
-                    if (43004 == $response->errcode) {
+                    if (43004 === $response->errcode) {
                         //用户未关注
                         WechatUser::setUserRefuse($token, 86400 * 7, json_encode($response, JSON_UNESCAPED_UNICODE));
                         return;
                     }
-                    if (43101 == $response->errcode) {
+                    if (43101 === $response->errcode) {
                         //用户拒绝接受消息
                         WechatUser::setUserRefuse($token, 86400 * 7, json_encode($response, JSON_UNESCAPED_UNICODE));
                         return;
