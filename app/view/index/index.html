@@ -94,7 +94,7 @@
         <div class="layui-col-md12 layui-col-lg12">
             <div class="layui-progress layui-progress-big" lay-showpercent="true" lay-filter="filter-progress"
                  title="今日模板消息发送条数">
-                <div class="layui-progress-bar" lay-percent="0 / 200000"></div>
+                <div class="layui-progress-bar" lay-percent="<?=$today_send_number?> / 200000"></div>
             </div>
         </div>
         <div class="layui-col-md4">
@@ -124,25 +124,24 @@
         </div>
         <div class="layui-col-md4">
             <div class="layui-card">
-                <div class="layui-card-header"><i class="layui-icon layui-icon-friends"></i> 今日数据</div>
+                <div class="layui-card-header"><i class="layui-icon layui-icon-friends"></i> 今日注册</div>
                 <div class="layui-card-body">今日注册<span
-                        class="layui-badge layui-bg-cyan"><?=$today_user_count?></span>人 | 今日发送
-                    <span class="layui-badge layui-bg-cyan"
-                          id="today_send_number"><?=$today_send_number?></span>次
+                        class="layui-badge layui-bg-cyan"><?=$today_user_count?></span>人
                 </div>
             </div>
         </div>
         <div class="layui-col-md4">
             <div class="layui-card">
                 <div class="layui-card-header"><i class="layui-icon layui-icon-user"></i> 7日注册</div>
-                <div class="layui-card-body"><span class="layui-badge layui-bg-cyan"><?=$day7_user_count?></span>人
+                <div class="layui-card-body">7日注册<span class="layui-badge layui-bg-cyan"><?=$day7_user_count?></span>人
                 </div>
             </div>
         </div>
         <div class="layui-col-md4">
             <div class="layui-card">
                 <div class="layui-card-header"><i class="layui-icon layui-icon-group"></i> 30日注册</div>
-                <div class="layui-card-body"><span class="layui-badge layui-bg-cyan"><?=$day30_user_count?></span>人
+                <div class="layui-card-body">30日注册<span
+                        class="layui-badge layui-bg-cyan"><?=$day30_user_count?></span>人
                 </div>
             </div>
         </div>
