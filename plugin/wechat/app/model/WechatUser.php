@@ -5,6 +5,7 @@ namespace plugin\wechat\app\model;
 use Illuminate\Database\Eloquent\Builder;
 use plugin\admin\app\model\Base;
 use plugin\wechat\app\enums\WechatUserTypeEnum;
+use support\Redis;
 
 /**
  * 微信用户
@@ -41,6 +42,39 @@ class WechatUser extends Base
      * @var string
      */
     protected $primaryKey = 'weid';
+
+    /**
+     * 用户拒绝接受模板消息时的缓存key
+     */
+    public const UserRefuse = 'WechatUser:UserRefuse:{{token}}';
+
+    /**
+     * 用户暂停接受模版消息
+     * @param string $token
+     * @param int $ttl
+     * @param string $errmsg
+     * @return void
+     */
+    public static function setUserRefuse(string $token, int $ttl = 0, string $errmsg = ''): void
+    {
+        $key = str_replace('{{token}}', $token, self::UserRefuse);
+        if ($ttl) {
+            Redis::setEx($key, $ttl, $errmsg);
+        } else {
+            Redis::del($key);
+        }
+    }
+
+    /**
+     * 检查用户是否拒绝接受模板消息
+     * @param string $token
+     * @return bool
+     */
+    public static function isUserRefuse(string $token): bool
+    {
+        $key = str_replace('{{token}}', $token, self::UserRefuse);
+        return (bool)Redis::exists($key);
+    }
 
     /**
      * 获取用户信息缓存键名

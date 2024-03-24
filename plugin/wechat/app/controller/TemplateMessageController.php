@@ -36,6 +36,10 @@ class TemplateMessageController
     {
         $token = $token ?: $request->input('token');
 
+        if (WechatUser::isUserRefuse($token)) {
+            return $this->fail('您的微信已设置拒绝接受公众号消息');
+        }
+
         // 检查：防穷举token（同IP 1分钟失败10次，IP封禁30分钟）
         $limit_ip = 'TemplateMessageController:limit_ip:' . $request->getRealIp();
         if (10 <= (int)Redis::get($limit_ip)) {
@@ -59,6 +63,7 @@ class TemplateMessageController
 
         $data = [
             'uid' => $user['uuid'],
+            'token' => $token,
             'openid' => $user['openid'],
             'template_id' => '',
             'text' => $text,

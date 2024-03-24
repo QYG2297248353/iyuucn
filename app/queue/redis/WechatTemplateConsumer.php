@@ -9,6 +9,7 @@ use Ledc\RedisQueue\ConsumerAbstract;
 use Ledc\RedisQueue\Library\Process;
 use plugin\wechat\app\enums\WechatTemplateMessageStatusEnum;
 use plugin\wechat\app\model\WechatTemplateMessage;
+use plugin\wechat\app\model\WechatUser;
 use plugin\wechat\app\service\WechatService;
 use plugin\wechat\app\service\WechatTemplateMessageServices;
 use RuntimeException;
@@ -96,6 +97,7 @@ class WechatTemplateConsumer extends ConsumerAbstract
 
         try {
             $uid = $data['uid'];
+            $token = $data['token'];
             $openid = $data['openid'];
             $template_id = $data['template_id'] ?? '';
             $hash = WechatTemplateMessage::generateHash($uid, $openid);
@@ -126,10 +128,12 @@ class WechatTemplateConsumer extends ConsumerAbstract
                 if (isset($response->errcode)) {
                     if (43004 == $response->errcode) {
                         //用户未关注
+                        WechatUser::setUserRefuse($token, 86400 * 7, json_encode($response, JSON_UNESCAPED_UNICODE));
                         return;
                     }
                     if (43101 == $response->errcode) {
                         //用户拒绝接受消息
+                        WechatUser::setUserRefuse($token, 86400 * 7, json_encode($response, JSON_UNESCAPED_UNICODE));
                         return;
                     }
                     Log::warning('发送模版消息失败：' . json_encode($response, JSON_UNESCAPED_UNICODE));
