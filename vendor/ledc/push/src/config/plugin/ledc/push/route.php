@@ -1,8 +1,8 @@
 <?php
 
 use Ledc\Push\Pusher;
+use Ledc\Push\PusherOnline;
 use Ledc\Push\UniqidChannel;
-use support\Redis;
 use support\Request;
 use Webman\Route;
 
@@ -11,6 +11,21 @@ use Webman\Route;
  */
 Route::get('/plugin/ledc/push/push.js', function (Request $request) {
     return response()->file(base_path() . '/vendor/ledc/push/src/push.js');
+});
+
+/**
+ * 获取配置:ledc/push
+ */
+Route::get('/plugin/ledc/push/config', function (Request $request) {
+    $protocol = $request->header('x-forwarded-proto', 'https');
+    $wss_protocol = 'http' === $protocol ? 'ws://' : 'wss://';
+    $host = $request->host();
+    $data = [
+        'url' => $wss_protocol . $host,
+        'app_key' => config('plugin.ledc.push.app.app_key'),
+        'auth' => $protocol . '://' . $host . config('plugin.ledc.push.app.auth'),
+    ];
+    return json(['code' => 0, 'data' => $data, 'msg' => 'ok']);
 });
 
 /**
@@ -65,8 +80,10 @@ Route::post(parse_url(config('plugin.ledc.push.app.channel_hook'), PHP_URL_PATH)
     foreach ($payload['events'] as $event) {
         if ($event['name'] === 'channel_added') {
             $channels_online[] = $event['channel'];
+            PusherOnline::sAdd($event['channel']);
         } else if ($event['name'] === 'channel_removed') {
             $channels_offline[] = $event['channel'];
+            PusherOnline::sRem($event['channel']);
         }
     }
 

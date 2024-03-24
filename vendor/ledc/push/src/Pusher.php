@@ -21,14 +21,17 @@ class Pusher
 
     /**
      * 触发客户端事件
-     * @param string $channels
-     * @param string $event
-     * @param mixed $data
-     * @param string|null $socket_id
+     *  - 在一个或多个通道上触发事件
+     *  - 通过提供通道名称和有效负载来触发事件
+     *  - 可提供发件人的socketId以排除客户端
+     * @param array|string $channels 将要发布事件的通道
+     * @param string $event 事件名称
+     * @param mixed $data 事件数据
+     * @param string|null $socket_id [可选]发件人的socketId
      * @return bool
      * @throws PushException
      */
-    public static function trigger(string $channels, string $event, mixed $data, string $socket_id = null): bool
+    public static function trigger(array|string $channels, string $event, mixed $data, string $socket_id = null): bool
     {
         return static::api()->trigger($channels, $event, $data, $socket_id);
     }

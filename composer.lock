@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "736e4ce7de94701055bc1ee64e717d23",
+    "content-hash": "694067e8f11b22645d247b4599c0b989",
     "packages": [
         {
             "name": "brick/math",
@@ -1463,16 +1463,16 @@
         },
         {
             "name": "ledc/push",
-            "version": "v1.0.4",
+            "version": "v1.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ledccn/ledc-push.git",
-                "reference": "28c4bcc2d8d433131c79b58dbc512f5a279b122c"
+                "reference": "3899baf7d9be09fee0c5004d3f745eaa85bbab82"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ledccn/ledc-push/zipball/28c4bcc2d8d433131c79b58dbc512f5a279b122c",
-                "reference": "28c4bcc2d8d433131c79b58dbc512f5a279b122c",
+                "url": "https://api.github.com/repos/ledccn/ledc-push/zipball/3899baf7d9be09fee0c5004d3f745eaa85bbab82",
+                "reference": "3899baf7d9be09fee0c5004d3f745eaa85bbab82",
                 "shasum": ""
             },
             "require": {
@@ -1495,9 +1495,9 @@
             "description": "webman插件ledc/push",
             "support": {
                 "issues": "https://github.com/ledccn/ledc-push/issues",
-                "source": "https://github.com/ledccn/ledc-push/tree/v1.0.4"
+                "source": "https://github.com/ledccn/ledc-push/tree/v1.1.4"
             },
-            "time": "2023-12-27T09:50:02+00:00"
+            "time": "2024-03-24T03:14:53+00:00"
         },
         {
             "name": "ledc/redis",
@@ -6016,7 +6016,8 @@
         "php": ">=8.2",
         "ext-json": "*",
         "ext-curl": "*",
-        "ext-posix": "*"
+        "ext-posix": "*",
+        "ext-pdo": "*"
     },
     "platform-dev": [],
     "plugin-api-version": "2.6.0"

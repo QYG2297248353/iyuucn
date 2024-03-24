@@ -1526,17 +1526,17 @@
         },
         {
             "name": "ledc/push",
-            "version": "v1.0.4",
-            "version_normalized": "1.0.4.0",
+            "version": "v1.1.4",
+            "version_normalized": "1.1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ledccn/ledc-push.git",
-                "reference": "28c4bcc2d8d433131c79b58dbc512f5a279b122c"
+                "reference": "3899baf7d9be09fee0c5004d3f745eaa85bbab82"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ledccn/ledc-push/zipball/28c4bcc2d8d433131c79b58dbc512f5a279b122c",
-                "reference": "28c4bcc2d8d433131c79b58dbc512f5a279b122c",
+                "url": "https://api.github.com/repos/ledccn/ledc-push/zipball/3899baf7d9be09fee0c5004d3f745eaa85bbab82",
+                "reference": "3899baf7d9be09fee0c5004d3f745eaa85bbab82",
                 "shasum": ""
             },
             "require": {
@@ -1546,7 +1546,7 @@
                 "php": ">=8.1",
                 "workerman/webman-framework": "^1.5.0"
             },
-            "time": "2023-12-27T09:50:02+00:00",
+            "time": "2024-03-24T03:14:53+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -1561,7 +1561,7 @@
             "description": "webman插件ledc/push",
             "support": {
                 "issues": "https://github.com/ledccn/ledc-push/issues",
-                "source": "https://github.com/ledccn/ledc-push/tree/v1.0.4"
+                "source": "https://github.com/ledccn/ledc-push/tree/v1.1.4"
             },
             "install-path": "../ledc/push"
         },

@@ -26,10 +26,12 @@ class Install
         $config_app_content = file_get_contents($config_app_path);
         $app_key = md5(microtime(true) . rand(0, 2100000000));
         $app_secret = md5($app_key . rand(0, 2100000000));
+        $server_listen_port = parse_url(config('server.listen', 'http://0.0.0.0:8787'), PHP_URL_PORT);
         $config_app_content = str_replace([
             'APP_KEY_TO_REPLACE',
-            'APP_SECRET_TO_REPLACE'
-        ], [$app_key, $app_secret], $config_app_content);
+            'APP_SECRET_TO_REPLACE',
+            ':8787'
+        ], [$app_key, $app_secret, ':' . $server_listen_port], $config_app_content);
         file_put_contents($config_app_path, $config_app_content);
         static::installByRelation();
     }
