@@ -94,7 +94,7 @@
         <div class="layui-col-md12 layui-col-lg12">
             <div class="layui-progress layui-progress-big" lay-showpercent="true" lay-filter="filter-progress"
                  title="今日模板消息发送条数">
-                <div class="layui-progress-bar layui-bg-orange" lay-percent="<?=$today_send_number?> / 200000"></div>
+                <div class="layui-progress-bar" lay-percent="<?=$today_send_number?> / 200000"></div>
             </div>
         </div>
         <div class="layui-col-md4">
@@ -465,7 +465,6 @@
         // 今日模板消息发送数量
         online_channel.on('today_send_number', function (number) {
             element.progress('filter-progress', number + ' / 200000');
-            document.getElementById('today_send_number').innerText = number;
         });
         online_channel.on('update_online_status', function (status) {
             online.innerText = status;
