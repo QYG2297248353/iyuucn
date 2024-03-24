@@ -5,6 +5,7 @@ namespace plugin\wechat\app\model;
 use Illuminate\Database\Eloquent\Builder;
 use plugin\admin\app\model\Base;
 use support\Db;
+use support\Redis;
 
 /**
  * 微信模板消息
@@ -34,9 +35,40 @@ class WechatTemplateMessage extends Base
     protected $primaryKey = 'mid';
 
     /**
-     * 今日模板消息发送数量
+     * 今日发送模板消息的数量
      */
     public const TODAY_SEND_MESSAGE_NUMBER = 'WechatTemplateMessage:todayNumber:{{date}}';
+
+    /**
+     * 今日发送模板消息的数量，缓存KEY
+     * @param int $timestamp 时间戳
+     * @return string
+     */
+    public static function keyTodayNumber(int $timestamp): string
+    {
+        return str_replace('{{date}}', date('Y-m-d', $timestamp), WechatTemplateMessage::TODAY_SEND_MESSAGE_NUMBER);
+    }
+
+    /**
+     * 递增今日发送模板消息的数量
+     * @return int
+     */
+    public static function incrTodayNumber(): int
+    {
+        $key = self::keyTodayNumber(time());
+        static $scriptSha = null;
+        if (!$scriptSha) {
+            $script = <<<luascript
+if redis.call('set', KEYS[1], ARGV[1], "EX", ARGV[2], "NX") then
+    return ARGV[1]
+else
+    return redis.call('incr', KEYS[1])
+end
+luascript;
+            $scriptSha = Redis::script('load', $script);
+        }
+        return (int)Redis::rawCommand('evalsha', $scriptSha, 1, $key, 1, 86400 * 10);
+    }
 
     /**
      * 生成提取消息的哈希

@@ -28,7 +28,7 @@ class Crontab
         $this->startClearTemplateMessage();
         Timer::add(5, function () {
             // 今日模板消息发送数量
-            $key = str_replace('{{date}}', date('Y-m-d'), WechatTemplateMessage::TODAY_SEND_MESSAGE_NUMBER);
+            $key = WechatTemplateMessage::keyTodayNumber(time());
             Pusher::trigger('online_status', 'today_send_number', Redis::get($key) ?: 0);
         });
     }

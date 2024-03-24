@@ -15,7 +15,6 @@ use plugin\wechat\app\service\WechatTemplateMessageServices;
 use RuntimeException;
 use support\Container;
 use support\Log;
-use support\Redis;
 use Throwable;
 use Workerman\Timer;
 
@@ -105,8 +104,7 @@ class WechatTemplateConsumer extends ConsumerAbstract
             $url = str_replace('{{hash}}', $hash, $data['url']);
             $body = $this->defaultTemplate($openid, $data['text'], $url, $template_id);
             $response = $this->post(self::TEMPLATE_SEND_URL . $this->accessToken->getToken(), $body);
-            // 今日模板消息发送条数
-            Redis::incr(str_replace('{{date}}', date('Y-m-d'), WechatTemplateMessage::TODAY_SEND_MESSAGE_NUMBER));
+            WechatTemplateMessage::incrTodayNumber();
             if (is_bool($response)) {
                 // 发送失败
                 $this->retry($payload);
