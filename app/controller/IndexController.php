@@ -3,6 +3,8 @@
 namespace app\controller;
 
 use plugin\admin\app\model\User;
+use plugin\wechat\app\model\WechatTemplateMessage;
+use support\Redis;
 use support\Request;
 use support\Response;
 
@@ -18,6 +20,8 @@ class IndexController
      */
     public function index(Request $request): Response
     {
+        //今日模板消息发送数量
+        $key = str_replace('{{date}}', date('Y-m-d'), WechatTemplateMessage::TODAY_SEND_MESSAGE_NUMBER);
         // 今日新增用户数
         $today_user_count = User::where('created_at', '>', date('Y-m-d') . ' 00:00:00')->count();
         // 7天内新增用户数
@@ -30,6 +34,7 @@ class IndexController
             'auth' => config('plugin.ledc.push.app.auth'),
             'websocket_port' => parse_url(config('plugin.ledc.push.app.websocket'), PHP_URL_PORT),
             'qrcode_day_number' => qrcode_day_number(),
+            'today_send_number' => Redis::get($key) ?: 0,
             'today_user_count' => $today_user_count,
             'day7_user_count' => $day7_user_count,
             'day30_user_count' => $day30_user_count,

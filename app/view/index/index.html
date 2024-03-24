@@ -118,8 +118,12 @@
         </div>
         <div class="layui-col-md4">
             <div class="layui-card">
-                <div class="layui-card-header"><i class="layui-icon layui-icon-friends"></i> 今日注册</div>
-                <div class="layui-card-body"><span class="layui-badge layui-bg-cyan"><?=$today_user_count?></span>人
+                <div class="layui-card-header"><i class="layui-icon layui-icon-friends"></i> 今日数据</div>
+                <div class="layui-card-body">
+                    今日注册<span
+                        class="layui-badge layui-bg-cyan"><?=$today_user_count?></span>人<br>
+                    今日发送<span class="layui-badge layui-bg-cyan"
+                                  id="today_send_number"><?=$today_send_number?></span>次
                 </div>
             </div>
         </div>
@@ -454,6 +458,10 @@
         }, 1000);
 
         let online_channel = pusher.subscribe('online_status');
+        // 今日模板消息发送数量
+        online_channel.on('today_send_number', function (number) {
+            document.getElementById('today_send_number').innerText = number;
+        });
         online_channel.on('update_online_status', function (status) {
             online.innerText = status;
             try {
