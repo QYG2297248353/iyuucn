@@ -123,10 +123,14 @@ class WechatTemplateConsumer extends ConsumerAbstract
                 ];
                 $this->services->push($db);
             } else {
-                match (isset($response->errcode)) {
-                    43004 === $response->errcode => '用户未关注',
-                    default => $this->retry($payload)
-                };
+                if (isset($response->errcode)) {
+                    if (43004 == $response->errcode) {
+                        //用户未关注
+                        return;
+                    }
+                    Log::warning('发送模版消息失败：' . json_encode($response, JSON_UNESCAPED_UNICODE));
+                }
+                $this->retry($payload);
             }
         } catch (Throwable $throwable) {
             Log::error('异步发送微信模板消息时异常：' . $throwable->getMessage());
