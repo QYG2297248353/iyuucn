@@ -5,23 +5,21 @@
     "high performance",
     "http service"
   ],
-  "homepage": "https://www.workerman.net",
+  "homepage": "https://www.iyuu.cn",
   "license": "MIT",
   "description": "High performance HTTP Service Framework.",
   "authors": [
     {
-      "name": "walkor",
-      "email": "walkor@workerman.net",
-      "homepage": "https://www.workerman.net",
+      "name": "david",
+      "email": "367013672@qq.com",
+      "homepage": "https://www.iyuu.cn",
       "role": "Developer"
     }
   ],
   "support": {
-    "email": "walkor@workerman.net",
-    "issues": "https://github.com/walkor/webman/issues",
-    "forum": "https://wenda.workerman.net/",
-    "wiki": "https://workerman.net/doc/webman",
-    "source": "https://github.com/walkor/webman"
+    "email": "367013672@qq.com",
+    "issues": "https://gitee.com/ledc/iyuucn/issues",
+    "source": "https://gitee.com/ledc/iyuucn"
   },
   "require": {
     "php": ">=8.2",
