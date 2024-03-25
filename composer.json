@@ -36,7 +36,6 @@
     "ext-curl": "*",
     "ext-posix": "*",
     "ext-pdo": "*",
-    "ledc/template": "^5.0.0",
     "illuminate/redis": "^10.37",
     "illuminate/database": "^10.37",
     "illuminate/pagination": "^10.37",
