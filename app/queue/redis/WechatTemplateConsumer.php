@@ -4,9 +4,7 @@ namespace app\queue\redis;
 
 use EasyWeChat\Kernel\Contracts\AccessToken;
 use EasyWeChat\Kernel\Contracts\RefreshableAccessToken;
-use Ledc\Redis\Payload;
-use Ledc\RedisQueue\ConsumerAbstract;
-use Ledc\RedisQueue\Library\Process;
+use Ledc\RedisQueue\HasHelper;
 use plugin\wechat\app\enums\WechatTemplateMessageStatusEnum;
 use plugin\wechat\app\model\WechatTemplateMessage;
 use plugin\wechat\app\model\WechatUser;
@@ -16,13 +14,27 @@ use RuntimeException;
 use support\Container;
 use support\Log;
 use Throwable;
-use Workerman\Timer;
+use Webman\RedisQueue\Consumer;
 
 /**
  * 消费者：发送微信模板消息
  */
-class WechatTemplateConsumer extends ConsumerAbstract
+class WechatTemplateConsumer implements Consumer
 {
+    use HasHelper;
+
+    /**
+     * 要消费的队列名
+     * @var string
+     */
+    public string $queue = 'wechat_template_consumer';
+    /**
+     * 连接名
+     * - 对应 config/redis-queue.php 里的连接
+     * - 对应 plugin/webman/redis-queue/redis.php 里的连接
+     * @return string
+     */
+    public string $connection = 'default';
     /**
      * 发送模版消息的接口URL
      */
@@ -46,22 +58,8 @@ class WechatTemplateConsumer extends ConsumerAbstract
     {
         try {
             $this->services = Container::get(WechatTemplateMessageServices::class);
-            $this->saveToDatabase();
             $this->accessToken = WechatService::instance()->getAccessToken();
         } catch (Throwable) {
-        }
-    }
-
-    /**
-     * 入库
-     * @return void
-     */
-    protected function saveToDatabase(): void
-    {
-        if (0 === Process::worker()?->id) {
-            Timer::add(5, function () {
-                $this->services->batchSave();
-            });
         }
     }
 
@@ -86,10 +84,9 @@ class WechatTemplateConsumer extends ConsumerAbstract
      * 消费方法
      *  - 消费过程中没有抛出异常和Error视为消费成功；否则消费失败,进入重试队列
      * @param mixed $data
-     * @param Payload $payload
      * @return void
      */
-    public function consume(mixed $data, Payload $payload): void
+    public function consume(mixed $data): void
     {
         if (is_null($this->accessToken)) {
             throw new RuntimeException('队列发送模板消息时accessToken的值为null');
@@ -106,8 +103,7 @@ class WechatTemplateConsumer extends ConsumerAbstract
             $response = $this->post(self::TEMPLATE_SEND_URL . $this->accessToken->getToken(), $body);
             WechatTemplateMessage::incrTodayNumber();
             if (is_bool($response)) {
-                // 发送失败
-                $this->retry($payload);
+                // 发送失败：重试
                 return;
             }
 
@@ -139,7 +135,7 @@ class WechatTemplateConsumer extends ConsumerAbstract
                     }
                     Log::warning('发送模版消息失败：' . json_encode($response, JSON_UNESCAPED_UNICODE));
                 }
-                $this->retry($payload);
+                // 重试
             }
         } catch (Throwable $throwable) {
             Log::error('异步发送微信模板消息时异常：' . $throwable->getMessage());
@@ -180,16 +176,6 @@ class WechatTemplateConsumer extends ConsumerAbstract
         $content = curl_exec($ch);
         //curl_close($ch);
         return is_bool($content) ? $content : json_decode($content);
-    }
-
-    /**
-     * 重试
-     * @param Payload $payload
-     * @return void
-     */
-    protected function retry(Payload $payload): void
-    {
-        $payload->setMaxAttempts(3)->release($payload->attempts ? $payload->attempts * 10 : 10);
     }
 
     /**
