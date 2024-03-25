@@ -39,4 +39,8 @@ return [
             ]
         ]
     ],
+    // 批量保存微信模板消息
+    'batchSaveWechatMessage' => [
+        'handler' => process\BatchSave::class,
+    ],
 ];

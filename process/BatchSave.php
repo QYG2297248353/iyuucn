@@ -7,7 +7,7 @@ use Workerman\Timer;
 use Workerman\Worker;
 
 /**
- * 进程：定时任务
+ * 进程：批量保存微信模板消息
  */
 class BatchSave
 {
