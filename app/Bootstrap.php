@@ -5,6 +5,7 @@ namespace app;
 use app\model\WaUserObserver;
 use plugin\admin\app\model\User as WaUserByPluginAdmin;
 use plugin\user\app\model\User as WaUserByPluginUser;
+use Workerman\Timer;
 use Workerman\Worker;
 
 /**
@@ -19,6 +20,10 @@ class Bootstrap implements \Webman\Bootstrap
      */
     public static function start(?Worker $worker): void
     {
+        if (!class_exists('\Workerman\Lib\Timer')) {
+            class_alias(Timer::class, '\Workerman\Lib\Timer');
+        }
+
         //【新增】依次触发的顺序是：
         //saving -> creating -> created -> saved
 
