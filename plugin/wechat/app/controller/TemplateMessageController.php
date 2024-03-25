@@ -3,7 +3,7 @@
 namespace plugin\wechat\app\controller;
 
 use app\queue\redis\WechatTemplateConsumer;
-use Ledc\Template\Library\RedisCache;
+use app\RedisCache;
 use plugin\wechat\app\model\WechatTemplateMessage;
 use plugin\wechat\app\model\WechatUser;
 use plugin\wechat\app\service\Markdown;

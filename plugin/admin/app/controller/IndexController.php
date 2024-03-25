@@ -10,9 +10,6 @@ use support\Response;
 use Throwable;
 use Workerman\Worker;
 
-use function Ledc\Template\current_git_commit;
-use function Ledc\Template\current_git_filemtime;
-
 class IndexController
 {
     /**
