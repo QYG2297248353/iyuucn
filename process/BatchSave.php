@@ -2,7 +2,11 @@
 
 namespace process;
 
+use Ledc\Push\Pusher;
+use plugin\wechat\app\model\WechatTemplateMessage;
 use plugin\wechat\app\service\WechatTemplateMessageServices;
+use support\Container;
+use support\Redis;
 use Workerman\Timer;
 use Workerman\Worker;
 
@@ -21,9 +25,15 @@ class BatchSave
     public function onWorkerStart(Worker $worker): void
     {
         static::$worker = $worker;
-        $services = new WechatTemplateMessageServices();
-        Timer::add(5, function () use ($services) {
+        Timer::add(5, function () {
+            /** @var WechatTemplateMessageServices $services */
+            $services = Container::get(WechatTemplateMessageServices::class);
             $services->batchSave();
+
+            // 今日模板消息发送数量
+            $key = WechatTemplateMessage::keyTodayNumber(time());
+            $number = Redis::get($key) ?: 0;
+            Pusher::trigger('online_status', 'today_send_number', (int)$number);
         });
     }
 

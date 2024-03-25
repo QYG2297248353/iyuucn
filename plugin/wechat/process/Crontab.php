@@ -2,10 +2,8 @@
 
 namespace plugin\wechat\process;
 
-use Ledc\Push\Pusher;
 use plugin\wechat\app\model\WechatTemplateMessage;
 use plugin\wechat\app\service\WechatService;
-use support\Redis;
 use Workerman\Timer;
 use Workerman\Worker;
 
@@ -26,12 +24,6 @@ class Crontab
         static::$worker = $worker;
         $this->startAccessToken();
         $this->startClearTemplateMessage();
-        Timer::add(5, function () {
-            // 今日模板消息发送数量
-            $key = WechatTemplateMessage::keyTodayNumber(time());
-            $number = Redis::get($key) ?: 0;
-            Pusher::trigger('online_status', 'today_send_number', (int)$number);
-        });
     }
 
     /**
