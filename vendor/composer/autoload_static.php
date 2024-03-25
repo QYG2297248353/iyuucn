@@ -14,14 +14,14 @@ class ComposerStaticInit23eb82b75f72aa9927ba6bb26fe680a3
         'a1105708a18b76903365ca1c4aa61b02' => __DIR__ . '/..' . '/symfony/translation/Resources/functions.php',
         '72579e7bd17821bb1321b87411366eae' => __DIR__ . '/..' . '/illuminate/support/helpers.php',
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
-        '662a729f963d39afe703c9d9b7ab4a8c' => __DIR__ . '/..' . '/symfony/polyfill-php83/bootstrap.php',
         'e69f7f6ee287b969198c3c9d6777bd38' => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer/bootstrap.php',
+        '662a729f963d39afe703c9d9b7ab4a8c' => __DIR__ . '/..' . '/symfony/polyfill-php83/bootstrap.php',
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
-        '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         '253c157292f75eb38082b5acb06f3f01' => __DIR__ . '/..' . '/nikic/fast-route/src/functions.php',
         '8825ede83f2f289127722d4e842cf7e8' => __DIR__ . '/..' . '/symfony/polyfill-intl-grapheme/bootstrap.php',
-        '25072dd6e2470089de65ae7bf11d3109' => __DIR__ . '/..' . '/symfony/polyfill-php72/bootstrap.php',
+        '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         'b6b991a57620e2fb6b2f66f03fe9ddc2' => __DIR__ . '/..' . '/symfony/string/Resources/functions.php',
+        '25072dd6e2470089de65ae7bf11d3109' => __DIR__ . '/..' . '/symfony/polyfill-php72/bootstrap.php',
         'f598d06aa772fa33d905e87be6398fb1' => __DIR__ . '/..' . '/symfony/polyfill-intl-idn/bootstrap.php',
         '9b552a3cc426e3287cc811caefa3cf53' => __DIR__ . '/..' . '/topthink/think-helper/src/helper.php',
         'ef65a1626449d89d0811cf9befce46f0' => __DIR__ . '/..' . '/illuminate/events/functions.php',
@@ -53,10 +53,13 @@ class ComposerStaticInit23eb82b75f72aa9927ba6bb26fe680a3
         ),
         'W' => 
         array (
+            'Workerman\\Redis\\' => 16,
+            'Workerman\\RedisQueue\\' => 21,
             'Workerman\\Psr7\\' => 15,
             'Workerman\\Http\\' => 15,
             'Workerman\\Crontab\\' => 18,
             'Workerman\\' => 10,
+            'Webman\\RedisQueue\\' => 18,
             'Webman\\Event\\' => 13,
             'Webman\\Console\\' => 15,
             'Webman\\Captcha\\' => 15,
@@ -131,6 +134,7 @@ class ComposerStaticInit23eb82b75f72aa9927ba6bb26fe680a3
         'L' => 
         array (
             'Ledc\\WorkermanProcess\\' => 22,
+            'Ledc\\RedisQueue\\' => 16,
             'Ledc\\Push\\' => 10,
             'Ledc\\Pipeline\\' => 14,
             'Ledc\\Macroable\\' => 15,
@@ -200,6 +204,14 @@ class ComposerStaticInit23eb82b75f72aa9927ba6bb26fe680a3
         array (
             0 => __DIR__ . '/../..' . '/app',
         ),
+        'Workerman\\Redis\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/workerman/redis/src',
+        ),
+        'Workerman\\RedisQueue\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/workerman/redis-queue/src',
+        ),
         'Workerman\\Psr7\\' => 
         array (
             0 => __DIR__ . '/..' . '/workerman/psr7/src',
@@ -215,6 +227,10 @@ class ComposerStaticInit23eb82b75f72aa9927ba6bb26fe680a3
         'Workerman\\' => 
         array (
             0 => __DIR__ . '/..' . '/workerman/workerman/src',
+        ),
+        'Webman\\RedisQueue\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/webman/redis-queue/src',
         ),
         'Webman\\Event\\' => 
         array (
@@ -416,6 +432,10 @@ class ComposerStaticInit23eb82b75f72aa9927ba6bb26fe680a3
         'Ledc\\WorkermanProcess\\' => 
         array (
             0 => __DIR__ . '/..' . '/ledc/workerman-process/src',
+        ),
+        'Ledc\\RedisQueue\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/ledc/redis-queue/src',
         ),
         'Ledc\\Push\\' => 
         array (

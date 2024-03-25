@@ -55,7 +55,8 @@
     "ledc/push": "^1.0",
     "w7corp/easywechat": "^6.13",
     "overtrue/easy-sms": "^2.5",
-    "phpmailer/phpmailer": "^6.9"
+    "phpmailer/phpmailer": "^6.9",
+    "ledc/redis-queue": "^8.1"
   },
   "suggest": {
     "ext-event": "For better performance. "
