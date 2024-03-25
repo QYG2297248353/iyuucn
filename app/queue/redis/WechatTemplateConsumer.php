@@ -64,23 +64,6 @@ class WechatTemplateConsumer implements Consumer
     }
 
     /**
-     * 要消费的队列名
-     */
-    public static function queue(): string
-    {
-        return 'wechat_template_consumer';
-    }
-
-    /**
-     * 连接名，对应 config/redis-queue.php 里的连接
-     * @return string
-     */
-    public static function connection(): string
-    {
-        return 'default';
-    }
-
-    /**
      * 消费方法
      *  - 消费过程中没有抛出异常和Error视为消费成功；否则消费失败,进入重试队列
      * @param mixed $data
