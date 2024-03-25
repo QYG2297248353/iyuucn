@@ -60,6 +60,7 @@ class TableController extends Base
      */
     public function show(Request $request): Response
     {
+        $table_name = $request->get('table_name','');
         $limit = (int)$request->get('limit', 10);
         $page = (int)$request->get('page', 1);
         $offset = ($page - 1) * $limit;
@@ -72,8 +73,8 @@ class TableController extends Base
             $field = 'TABLE_NAME';
         }
         $order = $order === 'asc' ? 'asc' : 'desc';
-        $total = Util::db()->select("SELECT count(*)total FROM  information_schema.`TABLES` WHERE  TABLE_SCHEMA='$database'")[0]->total ?? 0;
-        $tables = Util::db()->select("SELECT TABLE_NAME,TABLE_COMMENT,ENGINE,TABLE_ROWS,CREATE_TIME,UPDATE_TIME,TABLE_COLLATION FROM  information_schema.`TABLES` WHERE  TABLE_SCHEMA='$database' order by $field $order limit $offset,$limit");
+        $total = Util::db()->select("SELECT count(*)total FROM  information_schema.`TABLES` WHERE  TABLE_SCHEMA='$database' AND TABLE_NAME like '%{$table_name}%'")[0]->total ?? 0;
+        $tables = Util::db()->select("SELECT TABLE_NAME,TABLE_COMMENT,ENGINE,TABLE_ROWS,CREATE_TIME,UPDATE_TIME,TABLE_COLLATION FROM  information_schema.`TABLES` WHERE  TABLE_SCHEMA='$database' AND TABLE_NAME like '%{$table_name}%' order by $field $order limit $offset,$limit");
 
         if ($tables) {
             $table_names = array_column($tables, 'TABLE_NAME');
@@ -986,6 +987,7 @@ EOF;
         <meta charset="UTF-8">
         <title>新增页面</title>
         <link rel="stylesheet" href="/app/admin/component/pear/css/pear.css" />
+        <link rel="stylesheet" href="/app/admin/component/jsoneditor/css/jsoneditor.css" />
         <link rel="stylesheet" href="/app/admin/admin/css/reset.css" />
     </head>
     <body>
@@ -1014,6 +1016,7 @@ EOF;
 
         <script src="/app/admin/component/layui/layui.js?v=2.8.12"></script>
         <script src="/app/admin/component/pear/pear.js"></script>
+        <script src="/app/admin/component/jsoneditor/jsoneditor.js"></script>
         <script src="/app/admin/admin/js/permission.js"></script>
         
         <script>
@@ -1071,7 +1074,9 @@ EOF;
         <meta charset="UTF-8">
         <title>更新页面</title>
         <link rel="stylesheet" href="/app/admin/component/pear/css/pear.css" />
+        <link rel="stylesheet" href="/app/admin/component/jsoneditor/css/jsoneditor.css" />
         <link rel="stylesheet" href="/app/admin/admin/css/reset.css" />
+        
     </head>
     <body>
 
@@ -1098,6 +1103,7 @@ EOF;
 
         <script src="/app/admin/component/layui/layui.js?v=2.8.12"></script>
         <script src="/app/admin/component/pear/pear.js"></script>
+        <script src="/app/admin/component/jsoneditor/jsoneditor.js"></script>
         <script src="/app/admin/admin/js/permission.js"></script>
         
         <script>

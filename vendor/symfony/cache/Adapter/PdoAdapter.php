@@ -54,7 +54,7 @@ class PdoAdapter extends AbstractAdapter implements PruneableInterface
      * @throws InvalidArgumentException When PDO error mode is not PDO::ERRMODE_EXCEPTION
      * @throws InvalidArgumentException When namespace contains invalid characters
      */
-    public function __construct(#[\SensitiveParameter] \PDO|string $connOrDsn, string $namespace = '', int $defaultLifetime = 0, array $options = [], MarshallerInterface $marshaller = null)
+    public function __construct(#[\SensitiveParameter] \PDO|string $connOrDsn, string $namespace = '', int $defaultLifetime = 0, array $options = [], ?MarshallerInterface $marshaller = null)
     {
         if (\is_string($connOrDsn) && str_contains($connOrDsn, '://')) {
             throw new InvalidArgumentException(sprintf('Usage of Doctrine DBAL URL with "%s" is not supported. Use a PDO DSN or "%s" instead.', __CLASS__, DoctrineDbalAdapter::class));
@@ -95,12 +95,10 @@ class PdoAdapter extends AbstractAdapter implements PruneableInterface
      * Cache ID are saved in a column of maximum length 255. Cache data is
      * saved in a BLOB.
      *
-     * @return void
-     *
      * @throws \PDOException    When the table already exists
      * @throws \DomainException When an unsupported PDO driver is used
      */
-    public function createTable()
+    public function createTable(): void
     {
         $sql = match ($driver = $this->getDriver()) {
             // We use varbinary for the ID column because it prevents unwanted conversions:

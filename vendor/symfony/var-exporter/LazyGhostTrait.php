@@ -31,7 +31,7 @@ trait LazyGhostTrait
      *                                                    that the initializer doesn't initialize, if any
      * @param static|null              $instance
      */
-    public static function createLazyGhost(\Closure $initializer, array $skippedProperties = null, object $instance = null): static
+    public static function createLazyGhost(\Closure $initializer, ?array $skippedProperties = null, ?object $instance = null): static
     {
         if (self::class !== $class = $instance ? $instance::class : static::class) {
             $skippedProperties["\0".self::class."\0lazyObjectState"] = true;
@@ -165,6 +165,10 @@ trait LazyGhostTrait
 
                 return $accessor['get']($this, $name, null !== $readonlyScope);
             } catch (\Error) {
+                if (preg_match('/^Cannot access uninitialized non-nullable property ([^ ]++) by reference$/', $e->getMessage(), $matches)) {
+                    throw new \Error('Typed property '.$matches[1].' must not be accessed before initialization', $e->getCode(), $e->getPrevious());
+                }
+
                 throw $e;
             }
         }
