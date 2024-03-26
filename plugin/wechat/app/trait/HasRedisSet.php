@@ -7,9 +7,10 @@ use support\Redis;
 /**
  * Redis集合
  */
-trait RedisSet
+trait HasRedisSet
 {
     /**
+     * 集合的key
      * @var string
      */
     protected string $setKey;
@@ -17,21 +18,21 @@ trait RedisSet
     /**
      * 向集合添加一个或多个成员
      * @param string $member
-     * @return void
+     * @return int
      */
-    public function sAdd(string $member): void
+    public function sAdd(string $member): int
     {
-        Redis::sAdd($this->setKey, $member);
+        return Redis::sAdd($this->setKey, $member);
     }
 
     /**
      * 移除集合中一个或多个成员
      * @param string $member
-     * @return void
+     * @return int
      */
-    public function sRem(string $member): void
+    public function sRem(string $member): int
     {
-        Redis::sRem($this->setKey, $member);
+        return Redis::sRem($this->setKey, $member);
     }
 
     /**
@@ -56,7 +57,7 @@ trait RedisSet
     /**
      * 刷新成员（创建或者移除）
      * @param string $member
-     * @param callable $fn
+     * @param callable $fn 返回值：true添加、false移除
      * @return void
      */
     public function refresh(string $member, callable $fn): void
