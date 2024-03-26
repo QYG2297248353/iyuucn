@@ -6,6 +6,7 @@ use EasyWeChat\Kernel\Contracts\AccessToken;
 use EasyWeChat\Kernel\Contracts\RefreshableAccessToken;
 use Ledc\RedisQueue\HasHelper;
 use plugin\wechat\app\enums\WechatTemplateMessageStatusEnum;
+use plugin\wechat\app\model\redis\WechatMessageNumber;
 use plugin\wechat\app\model\WechatTemplateMessage;
 use plugin\wechat\app\model\WechatUser;
 use plugin\wechat\app\service\WechatService;
@@ -39,17 +40,19 @@ class WechatTemplateConsumer implements Consumer
      * 发送模版消息的接口URL
      */
     public const TEMPLATE_SEND_URL = 'https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=';
-
     /**
      * @var WechatTemplateMessageServices
      */
     protected WechatTemplateMessageServices $services;
-
     /**
      * 微信accessToken管理类
      * @var RefreshableAccessToken|AccessToken|null
      */
     protected RefreshableAccessToken|AccessToken|null $accessToken;
+    /**
+     * @var WechatMessageNumber
+     */
+    protected WechatMessageNumber $messageCounter;
 
     /**
      * 构造函数
@@ -59,6 +62,7 @@ class WechatTemplateConsumer implements Consumer
         try {
             $this->services = Container::get(WechatTemplateMessageServices::class);
             $this->accessToken = WechatService::instance()->getAccessToken();
+            $this->messageCounter = new WechatMessageNumber();
         } catch (Throwable) {
         }
     }
@@ -103,8 +107,10 @@ class WechatTemplateConsumer implements Consumer
                     'hash' => $hash,
                     'status' => WechatTemplateMessageStatusEnum::pending->value,
                 ];
+                $this->messageCounter->select(true)->incr($uid);
                 $this->services->push($db);
             } else {
+                $this->messageCounter->select(false)->incr($uid);
                 if (isset($response->errcode)) {
                     if (43004 === $response->errcode) {
                         //用户未关注
