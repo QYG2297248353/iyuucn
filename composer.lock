@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ec24fb417e2afea324e07a3c2e26904c",
+    "content-hash": "6a58770231b0687167f58c6850cacff5",
     "packages": [
         {
             "name": "brick/math",
@@ -1387,20 +1387,20 @@
         },
         {
             "name": "ledc/macroable",
-            "version": "v1.0.1",
+            "version": "v8.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ledccn/macroable.git",
-                "reference": "f3a107db43e347d13e83003d6faac48f5ca00016"
+                "reference": "c786f7ce2e8ff4a1567373e90f9da8f5239bc51b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ledccn/macroable/zipball/f3a107db43e347d13e83003d6faac48f5ca00016",
-                "reference": "f3a107db43e347d13e83003d6faac48f5ca00016",
+                "url": "https://api.github.com/repos/ledccn/macroable/zipball/c786f7ce2e8ff4a1567373e90f9da8f5239bc51b",
+                "reference": "c786f7ce2e8ff4a1567373e90f9da8f5239bc51b",
                 "shasum": ""
             },
             "require": {
-                "php": "^8.0"
+                "php": ">=8.1"
             },
             "type": "library",
             "autoload": {
@@ -1421,9 +1421,9 @@
             "description": "向类动态添加方法的trait特性",
             "support": {
                 "issues": "https://github.com/ledccn/macroable/issues",
-                "source": "https://github.com/ledccn/macroable/tree/v1.0.1"
+                "source": "https://github.com/ledccn/macroable/tree/v8.0.0"
             },
-            "time": "2023-08-01T01:30:44+00:00"
+            "time": "2024-03-26T16:07:15+00:00"
         },
         {
             "name": "ledc/pipeline",
@@ -5336,16 +5336,16 @@
         },
         {
             "name": "webman/captcha",
-            "version": "v1.0.2",
+            "version": "v1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webman-php/captcha.git",
-                "reference": "00ea47505c5aa92b116ca914f5733e2eb326719a"
+                "reference": "e80f271af99cb337406118fa7d90c0699ee1f3bc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webman-php/captcha/zipball/00ea47505c5aa92b116ca914f5733e2eb326719a",
-                "reference": "00ea47505c5aa92b116ca914f5733e2eb326719a",
+                "url": "https://api.github.com/repos/webman-php/captcha/zipball/e80f271af99cb337406118fa7d90c0699ee1f3bc",
+                "reference": "e80f271af99cb337406118fa7d90c0699ee1f3bc",
                 "shasum": ""
             },
             "require": {
@@ -5388,9 +5388,9 @@
                 "spam"
             ],
             "support": {
-                "source": "https://github.com/webman-php/captcha/tree/v1.0.2"
+                "source": "https://github.com/webman-php/captcha/tree/v1.0.3"
             },
-            "time": "2023-03-30T06:08:19+00:00"
+            "time": "2024-03-28T07:54:04+00:00"
         },
         {
             "name": "webman/console",

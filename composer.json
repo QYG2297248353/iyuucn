@@ -49,12 +49,12 @@
     "topthink/think-helper": "^3.1",
     "ledc/workerman-process": "^1.0",
     "ledc/locker": "^1.1",
-    "ledc/macroable": "^1.0",
     "ledc/push": "^1.0",
+    "ledc/macroable": "^8.0",
+    "ledc/redis-queue": "^8.1",
     "w7corp/easywechat": "^6.13",
     "overtrue/easy-sms": "^2.5",
-    "phpmailer/phpmailer": "^6.9",
-    "ledc/redis-queue": "^8.1"
+    "phpmailer/phpmailer": "^6.9"
   },
   "suggest": {
     "ext-event": "For better performance. "
