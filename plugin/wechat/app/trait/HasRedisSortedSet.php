@@ -57,11 +57,11 @@ trait HasRedisSortedSet
     }
 
     /**
-     * 返回有序集合中指定成员的索引
+     * 返回有序集合中指定成员的索引(索引从0开始)
      * @param string $member
-     * @return int|null
+     * @return int|bool 不存在返回false
      */
-    public function zRank(string $member): ?int
+    public function zRank(string $member): int|bool
     {
         return Redis::zRank($this->sortedSetKey, $member);
     }
@@ -69,9 +69,9 @@ trait HasRedisSortedSet
     /**
      * 返回有序集中，成员的分数值
      * @param string $member
-     * @return string|null
+     * @return float|bool 不存在返回false
      */
-    public function zScore(string $member): ?string
+    public function zScore(string $member): float|bool
     {
         return Redis::zScore($this->sortedSetKey, $member);
     }
