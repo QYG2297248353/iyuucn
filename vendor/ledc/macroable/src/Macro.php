@@ -59,7 +59,7 @@ trait Macro
         );
 
         foreach ($methods as $method) {
-            if ($replace || !static::hasMacro($method->name)) {
+            if ($replace || !$this->hasMacro($method->name)) {
                 $this->macro($method->name, $method->invoke($mixin));
             }
         }
@@ -95,7 +95,7 @@ trait Macro
      */
     public function __call(string $method, array $parameters)
     {
-        if (!static::hasMacro($method)) {
+        if (!$this->hasMacro($method)) {
             throw new BadMethodCallException(sprintf(
                 'Method %s does not exist.', $method
             ));
