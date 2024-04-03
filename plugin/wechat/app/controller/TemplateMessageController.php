@@ -10,6 +10,7 @@ use plugin\wechat\app\service\Markdown;
 use support\Redis;
 use support\Request;
 use support\Response;
+use Tinywan\LimitTraffic\RateLimiter;
 
 /**
  * 微信模板消息
@@ -61,6 +62,17 @@ class TemplateMessageController
             return $this->fail('text不能为空');
         }
 
+        // 接口限流
+        if ($result = RateLimiter::traffic()) {
+            return new Response($result['status'], [
+                'Content-Type' => 'application/json',
+                'X-Rate-Limit-Limit' => $result['limit'],
+                'X-Rate-Limit-Remaining' => $result['remaining'],
+                'X-Rate-Limit-Reset' => $result['reset']
+            ], json_encode($result['body']));
+        }
+
+        // 投递待发送消息到队列
         $data = [
             'uid' => $user['uuid'],
             'token' => $token,
