@@ -3,7 +3,7 @@
         'name' => 'workerman/webman',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => 'adba255825f5c16229ebcf6cc92d329da5664a74',
+        'reference' => '754d178e7be4f69483c36e4882834b7bc9952764',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -734,6 +734,15 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'tinywan/limit-traffic' => array(
+            'pretty_version' => 'v0.0.5',
+            'version' => '0.0.5.0',
+            'reference' => 'b1ab288402623afa4e54dba0e6ec9ff51f825cfe',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../tinywan/limit-traffic',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'topthink/think-container' => array(
             'pretty_version' => 'v2.0.5',
             'version' => '2.0.5.0',
@@ -890,7 +899,7 @@
         'workerman/webman' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => 'adba255825f5c16229ebcf6cc92d329da5664a74',
+            'reference' => '754d178e7be4f69483c36e4882834b7bc9952764',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

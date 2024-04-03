@@ -68,6 +68,7 @@ class ComposerStaticInit23eb82b75f72aa9927ba6bb26fe680a3
         ),
         'T' => 
         array (
+            'Tinywan\\LimitTraffic\\' => 21,
             'TheNorthMemory\\Xml\\' => 19,
         ),
         'S' => 
@@ -251,6 +252,10 @@ class ComposerStaticInit23eb82b75f72aa9927ba6bb26fe680a3
         'Webman\\' => 
         array (
             0 => __DIR__ . '/..' . '/workerman/webman-framework/src',
+        ),
+        'Tinywan\\LimitTraffic\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/tinywan/limit-traffic/src',
         ),
         'TheNorthMemory\\Xml\\' => 
         array (

@@ -22,6 +22,7 @@ return array(
     'Webman\\Captcha\\' => array($vendorDir . '/webman/captcha/src'),
     'Webman\\Admin\\' => array($vendorDir . '/webman/admin/src'),
     'Webman\\' => array($vendorDir . '/workerman/webman-framework/src'),
+    'Tinywan\\LimitTraffic\\' => array($vendorDir . '/tinywan/limit-traffic/src'),
     'TheNorthMemory\\Xml\\' => array($vendorDir . '/thenorthmemory/xml/src'),
     'Symfony\\Polyfill\\Php83\\' => array($vendorDir . '/symfony/polyfill-php83'),
     'Symfony\\Polyfill\\Php81\\' => array($vendorDir . '/symfony/polyfill-php81'),
