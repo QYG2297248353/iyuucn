@@ -119,24 +119,19 @@ class Request extends \Webman\Http\Request
     protected function typeCast(mixed &$data, string $type): void
     {
         switch (strtolower($type)) {
-            // 数组
-            case 'a':
+            case 'a':   // 数组
                 $data = (array)$data;
                 break;
-            // 数字
-            case 'd':
+            case 'd':   // 数字
                 $data = (int)$data;
                 break;
-            // 浮点
-            case 'f':
+            case 'f':   // 浮点
                 $data = (float)$data;
                 break;
-            // 布尔
-            case 'b':
-                $data = (boolean)$data;
+            case 'b':   // 布尔
+                $data = (bool)$data;
                 break;
-            // 字符串
-            case 's':
+            case 's':   // 字符串
                 if (is_scalar($data)) {
                     $data = (string)$data;
                 } else {
