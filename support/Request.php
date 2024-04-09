@@ -14,17 +14,6 @@ class Request extends \Webman\Http\Request
     use Macro;
 
     /**
-     * 设置session_id
-     * @param string $session_id
-     * @return $this
-     */
-    public function setSid(string $session_id): self
-    {
-        $this->sid = $session_id;
-        return $this;
-    }
-
-    /**
      * 仅允许GET请求
      * @return self
      * @throws BusinessException
@@ -57,7 +46,7 @@ class Request extends \Webman\Http\Request
      * @return array
      * @author david 2023/2/17
      */
-    public function allMore(array $params, bool $index_array = false): array
+    public function inputMore(array $params, bool $index_array = false): array
     {
         return $this->doMore($this->all(), $params, $index_array);
     }
