@@ -41,9 +41,12 @@ class TemplateMessageController
             return $this->fail('您的微信已设置拒绝接受公众号消息');
         }
 
+        $ip = $request->getRealIp();
+        $ip_white_list = config('iyuu.ip_white_list', []);
+        $allow_ip = in_array($ip, $ip_white_list, true);
         // 检查：防穷举token（同IP 1分钟失败10次，IP封禁30分钟）
-        $limit_ip = 'TemplateMessageController:limit_ip:' . $request->getRealIp();
-        if (10 <= (int)Redis::get($limit_ip)) {
+        $limit_ip = 'TemplateMessageController:limit_ip:' . $ip;
+        if (false === $allow_ip && 10 <= (int)Redis::get($limit_ip)) {
             return $this->fail('token验证失败', 403);
         }
 
@@ -52,7 +55,7 @@ class TemplateMessageController
         }, 1800);
         if (empty($user)) {
             // 设置：防穷举token（同IP 1分钟失败10次，IP封禁30分钟）
-            if (10 <= $this->redis_incr($limit_ip, 60)) {
+            if (false === $allow_ip && 10 <= $this->redis_incr($limit_ip, 60)) {
                 Redis::expire($limit_ip, 1800);
             }
             return $this->fail('token验证失败', 403);
@@ -63,7 +66,7 @@ class TemplateMessageController
         }
 
         // 接口限流
-        if ($result = RateLimiter::traffic()) {
+        if (false === $allow_ip && $result = RateLimiter::traffic()) {
             return new Response($result['status'], [
                 'Content-Type' => 'application/json',
                 'X-Rate-Limit-Limit' => $result['limit'],
