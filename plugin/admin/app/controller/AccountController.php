@@ -237,7 +237,7 @@ class AccountController extends Crud
         }
         $limit_info['count']++;
         file_put_contents($limit_file, json_encode($limit_info));
-        if ($limit_info['count'] >= 5) {
+        if ($limit_info['count'] >= 10) {
             throw new BusinessException('登录失败次数过多，请5分钟后再试');
         }
     }
