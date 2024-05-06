@@ -9,7 +9,6 @@ use support\exception\BusinessException;
 use support\Request;
 use support\Response;
 use Webman\Captcha\CaptchaBuilder;
-use plugin\wechat\api\Install;
 
 /**
  * 安装
@@ -182,6 +181,9 @@ EOF;
             restore_error_handler();
         }
 
+        // 安装微信插件
+        $this->installWeiXin($db);
+
         return $this->json(0);
     }
 
@@ -230,9 +232,6 @@ EOF;
         $smt->bindValue('admin_id', $admin_id);
         $smt->execute();
 
-        // 安装微信插件
-        $this->installWeiXin();
-
         $request->session()->flush();
         return $this->json(0);
     }
@@ -244,10 +243,11 @@ EOF;
      *
      * @return
      */
-    protected function installWeiXin(){
+    protected function installWeiXin(\PDO $pdo){
         // 安装微信插件
-        $plugin = new Install();
-        $plugin->install();
+        $command = 'php webman app-plugin:install wechat';
+        $output = shell_exec($command);
+        echo $output;
 
         // 初始化数据库
         $sql_file = base_path() . '/plugin/wechat/wechat.sql';
@@ -259,7 +259,7 @@ EOF;
         $sql_query = $this->removeComments($sql_query);
         $sql_query = $this->splitSqlFile($sql_query, ';');
         foreach ($sql_query as $sql) {
-            $db->exec($sql);
+            $pdo->exec($sql);
         }
     }
 
