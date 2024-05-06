@@ -1,21 +1,31 @@
-<div style="padding:18px;max-width: 1024px;margin:0 auto;background-color:#fff;color:#333">
-<h1>微信模板消息推送接口</h1>
+# 爱语飞飞
 
-基于<a href="https://www.workerman.net" target="__blank">workerman</a>开发的超高性能PHP框架
+微信模板消息推送接口
 
-<h1>学习</h1>
+基于 [workerman](https://www.workerman.net/) 开发的超高性能PHP框架
 
-<div style="clear: both">
-<h1>LICENSE</h1>
-The webman is open-sourced software licensed under the MIT.
-</div>
-</div>
+## 项目说明
 
-## 使用：
- - 命令行运行：`sh restart.sh`
- - 安装界面：http://你的域名或IP/app/admin
- - 安装插件
-```shell
-php webman app-plugin:install wechat
-```
- - 导入数据库：/plugin/wechat/wechat.sql
+本项目基于 [大卫 / iyuucn](https://gitee.com/ledc/iyuucn) 的项目进行二次开发，感谢大卫的开源分享。
+
+为了方便部署，调整部分插件安装时机。构建出镜像版本，方便部署。
+
+镜像后期维护将由 [新疆萌森软件开发工作室](https://lifebus.top/) 继续支持与维护。
+
+## 项目安装
+
+> 环境准备
+>
+> MySQL 5.7+
+>
+> 微信公众号
+
+### 1Panel 第三方应用商店安装 `推荐`
+
+### docker-compose 安装
+
+### docker 安装
+
+## 写在最后
+
+感谢大家的支持，如果有任何问题，欢迎提交 [Issues](https://github.com/QYG2297248353/iyuucn/issues)。
