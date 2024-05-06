@@ -43,8 +43,9 @@ RUN set -ex && \
         php83 \
         php83-phar \
         php83-mbstring \
-        php83-pcntl \
         php83-posix \
+        php83-curl \
+        php83-pcntl \
         php83-pecl-event \
         php83-pecl-redis \
         php83-pecl-igbinary \

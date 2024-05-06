@@ -321,10 +321,6 @@ class Client
             return;
         }
 
-        # 打印连接信息
-        echo "Redis connect to {$this->_address}\n";
-        echo "Redis options: " . json_encode($this->_options) . "\n";
-
         $timeout = isset($this->_options['connect_timeout']) ? $this->_options['connect_timeout'] : 5;
         $context = isset($this->_options['context']) ? $this->_options['context'] : [];
         $this->_connection = new AsyncTcpConnection($this->_address, $context);
