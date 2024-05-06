@@ -9,3 +9,4 @@
 /._.DS_Store
 /.php-cs-fixer.cache
 /vendor/workerman/workerman.log
+/plugin/admin/config/database.php
