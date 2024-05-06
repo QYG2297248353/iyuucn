@@ -73,5 +73,8 @@ EXPOSE 3135
 # 卸载 git
 RUN apk del git
 
+# 挂载目录
+VOLUME ["/app"]
+
 # 启动应用
 CMD ["php", "start.php", "restart"]
