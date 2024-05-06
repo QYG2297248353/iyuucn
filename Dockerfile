@@ -24,7 +24,7 @@ ENV LANG="C.UTF-8" \
     DB_CHARSET=utf8 \
     SERVER_LISTEN_PORT=8788 \
     PUSH_APP_SECRET=test \
-    GATEWAY_SECRET="" \
+    GATEWAY_SECRET='' \
     GATEWAY_REGISTER_LISTEN_ADDRESS=127.0.0.1 \
     GATEWAY_REGISTER_ADDRESS=127.0.0.1 \
     GATEWAY_REGISTER_PORT=1236 \
@@ -32,12 +32,8 @@ ENV LANG="C.UTF-8" \
     GATEWAY_START_PORT=4000 \
     REDIS_HOST=127.0.0.1 \
     REDIS_PORT=6379 \
-    REDIS_AUTH="" \
     REDIS_DB=0 \
-    REDIS_QUEUE_HOST=127.0.0.1 \
-    REDIS_QUEUE_PORT=6379 \
-    REDIS_QUEUE_AUTH="" \
-    REDIS_QUEUE_DB=0
+    REDIS_AUTH=''
 
 # 安装 PHP 8.3、PHP Redis 扩展以及数据库连接依赖
 RUN set -ex && \
@@ -47,8 +43,13 @@ RUN set -ex && \
         php83 \
         php83-phar \
         php83-mbstring \
-        php83-gd \
+        php83-pcntl \
+        php83-posix \
+        php83-pecl-event \
+        php83-pecl-redis \
+        php83-pecl-igbinary \
         php83-redis \
+        php83-gd \
         php83-pdo \
         php83-pdo_mysql &&\
     ln -sf /usr/bin/php83 /usr/bin/php && \
@@ -61,17 +62,15 @@ RUN set -ex && \
 # 设置工作目录
 WORKDIR /app
 
-# 打印所有环境变量
-RUN printenv
-
 # 从代码仓库拉取代码
 RUN git clone https://gitee.com/qyg2297248353/iyuucn.git .
 
 # 暴露容器端口
 EXPOSE 8788
+EXPOSE 3135
 
 # 卸载 git
 RUN apk del git
 
 # 启动应用
-CMD ["sh", "restart.sh"]
+CMD ["php", "start.php", "restart"]
