@@ -62,4 +62,6 @@ RUN set -ex && \
     mkdir /app && \
     git config --global --add safe.directory /app && \
 
-ENTRYPOINT ["top", "-b"]
+# 暴露端口
+EXPOSE 8788
+EXPOSE 3131
