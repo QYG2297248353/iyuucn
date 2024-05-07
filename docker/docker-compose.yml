@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+  iyuucc:
+    image: qyg2297248353/iyuucc:v0.0.1
+    container_name: iyuucc
+    restart: always
+    network_mode: bridge
+    ports:
+      - ${SERVER_LISTEN_PORT}:8788
+      - ${SERVER_WEBSOCKET_PORT}:3153
+    volumes:
+      - ${IYUUCC_ROOT_PATH}/app:/app
+    env_file:
+      - .env
