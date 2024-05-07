@@ -11,7 +11,7 @@ if (false === $server_listen_port || !ctype_digit($server_listen_port)) {
 
 return [
     'enable' => true,
-    'websocket' => 'websocket://0.0.0.0:3135',
+    'websocket' => 'websocket://' . env('SERVER_HOST', '127.0.0.1') . ':' . env('SERVER_WEBSOCKET_PORT', '3153'),
     'api' => 'http://0.0.0.0:3236',
     'app_key' => 'a2b15c26197c7ab74607cbd81af77a47',
     'app_secret' => env('PUSH_APP_SECRET', ''),
